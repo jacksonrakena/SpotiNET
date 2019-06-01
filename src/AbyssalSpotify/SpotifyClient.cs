@@ -115,6 +115,13 @@ namespace AbyssalSpotify
         /// </summary>
         /// <param name="id">The base-62 Spotify ID to use when getting the artist.</param>
         /// <returns>An asynchronous operation that will yield the <see cref="SpotifyArtist"/> that has the provided ID.</returns>
+        /// <example>
+        ///     Here is an example of getting a Spotify artist.
+        ///     <code>
+        ///     var artist = await client.GetArtistAsync("6yhD1KjhLxIETFF7vIRf8B");
+        ///     Console.WriteLine(artist.Name);
+        ///     </code>
+        /// </example>
         public async Task<SpotifyArtist> GetArtistAsync(string id)
         {
             var data = await RequestAsync("artists/" + id, HttpMethod.Get);

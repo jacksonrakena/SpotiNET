@@ -10,7 +10,7 @@ namespace AbyssalSpotify
     public class AuthorizationSet
     {
         /// <summary>
-        ///     Represents the Spotify refresh token, used to extend the validity of the <see cref="AccessToken."/>
+        ///     Represents the Spotify refresh token, used to extend the validity of the <see cref="AccessToken"/>.
         ///     This will be <c>null</c> for every authorizer except <see cref="AuthorizationCodeAuthorizer"/>.
         /// </summary>
         public string RefreshToken { get; set; }
