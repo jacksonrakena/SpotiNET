@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.28922.388
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AbyssalSpotify", "AbyssalSpotify\AbyssalSpotify.csproj", "{0604894F-88C6-4D5E-9203-A2131C6B6D91}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AbyssalSpotify", "src\AbyssalSpotify\AbyssalSpotify.csproj", "{0604894F-88C6-4D5E-9203-A2131C6B6D91}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AbyssalSpotify.Tests", "AbyssalSpotify.Tests\AbyssalSpotify.Tests.csproj", "{B15EAE15-5B0A-4E94-B71F-0629270E6361}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AbyssalSpotify.Tests", "src\AbyssalSpotify.Tests\AbyssalSpotify.Tests.csproj", "{B15EAE15-5B0A-4E94-B71F-0629270E6361}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

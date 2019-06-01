@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace AbyssalSpotify.Authorization
+namespace AbyssalSpotify
 {
     /// <summary>
     ///     Represents the result of a Spotify authorization flow, using a <see cref="ISpotifyAuthorizer"/>.

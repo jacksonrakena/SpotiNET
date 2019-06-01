@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace AbyssalSpotify.Authorization
+namespace AbyssalSpotify
 {
     public enum AuthorizerType
     {
