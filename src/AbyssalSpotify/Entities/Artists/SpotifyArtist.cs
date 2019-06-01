@@ -17,8 +17,8 @@ namespace AbyssalSpotify
         /// <example>
         ///     Here is an example of an external URL object.
         ///     <code>
-        ///         var spotifyExternalUrl = artist.ExternalUrls["spotify"];
-        ///         var facebookExternalUrl = artist.ExternalUrls["facebook"];
+        ///     var spotifyExternalUrl = artist.ExternalUrls["spotify"];
+        ///     var facebookExternalUrl = artist.ExternalUrls["facebook"];
         ///     </code>
         /// </example>
         public ImmutableDictionary<string, string> ExternalUrls { get; }

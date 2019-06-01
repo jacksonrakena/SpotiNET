@@ -4,7 +4,7 @@ using System.Text;
 
 namespace AbyssalSpotify
 {
-    class AuthorizationCodeAuthorizer
+    public class AuthorizationCodeAuthorizer
     {
     }
 }

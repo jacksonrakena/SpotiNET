@@ -10,12 +10,12 @@ namespace AbyssalSpotify
     public class SpotifyImage
     {
         /// <summary>
-        ///     The image height in pixels. Can be <code>null</code> if unknown.
+        ///     The image height in pixels. Can be <c>null</c> if unknown.
         /// </summary>
         public int? Height { get; }
 
         /// <summary>
-        ///     The image width in pixels. Can be <code>null</code> if unknown.
+        ///     The image width in pixels. Can be <c>null</c> if unknown.
         /// </summary>
         public int? Width { get; }
 

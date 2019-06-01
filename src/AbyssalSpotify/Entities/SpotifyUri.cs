@@ -15,7 +15,7 @@ namespace AbyssalSpotify
         /// <example>
         ///     Here is an example of a Spotify URI.
         ///     <code>
-        ///         spotify:track:6rqhFgbbKwnb9MLmUQDhG6
+        ///     spotify:track:6rqhFgbbKwnb9MLmUQDhG6
         ///     </code>
         /// </example>
         public string Uri { get; }
@@ -26,7 +26,7 @@ namespace AbyssalSpotify
         /// <example>
         ///     Here is an example of a Spotify ID.
         ///     <code>
-        ///         6rqhFgbbKwnb9MLmUQDhG6
+        ///     6rqhFgbbKwnb9MLmUQDhG6
         ///     </code>
         /// </example>
         public string Id { get; }

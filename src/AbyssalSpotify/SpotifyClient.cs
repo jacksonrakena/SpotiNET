@@ -21,7 +21,7 @@ namespace AbyssalSpotify
         public ISpotifyAuthorizer Authorizer { get; }
 
         /// <summary>
-        ///     The current authorization data, as supplied by <see cref="Authorizer"/>. Will be <code>null</code> if no authorization has occurred yet.
+        ///     The current authorization data, as supplied by <see cref="Authorizer"/>. Will be <c>null</c> if no authorization has occurred yet.
         /// </summary>
         public AuthorizationSet AuthorizationSet { get; private set; }
 
@@ -53,7 +53,7 @@ namespace AbyssalSpotify
         ///     This sample shows how to use <see cref="SpotifyClient.FromClientCredentials(string)"/> to create a <see cref="SpotifyClient"/>
         ///     using a combined credential string.
         ///     <code>
-        ///         var client = SpotifyClient.FromClientCredentials("MyClientId:MyClientSecret");
+        ///     var client = SpotifyClient.FromClientCredentials("MyClientId:MyClientSecret");
         ///     </code>
         /// </example>
         /// <param name="combinedClientCredentials">The combined credential string.</param>
@@ -78,8 +78,8 @@ namespace AbyssalSpotify
 
         /// <summary>
         ///     Ensures that the Spotify client is properly authorized.
-        ///     If the client is already authorized, nothing will happen and <code>false</code> will be returned.
-        ///     If the client is not authorized, the authorization flow will be completed and <code>true</code> will be returned.
+        ///     If the client is already authorized, nothing will happen and <c>false</c> will be returned.
+        ///     If the client is not authorized, the authorization flow will be completed and <c>true</c> will be returned.
         /// </summary>
         /// <returns>An asynchronous operation that will yield a boolean indicating whether the client attempted to authorize.</returns>
         public async Task<bool> EnsureAuthorizedAsync()
