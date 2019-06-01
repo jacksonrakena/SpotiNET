@@ -4,6 +4,9 @@ using System.Text;
 
 namespace AbyssalSpotify
 {
+    /// <summary>
+    ///     An enum containing the two currently supported authentication flows in AbyssalSpotify.
+    /// </summary>
     public enum AuthorizerType
     {
         /// <summary>

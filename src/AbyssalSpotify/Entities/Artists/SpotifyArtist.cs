@@ -9,7 +9,7 @@ namespace AbyssalSpotify
     /// <summary>
     ///     Represents a full artist entity returned by Spotify.
     /// </summary>
-    public class SpotifyArtist: ISpotifyEntity
+    public class SpotifyArtist
     {
         /// <summary>
         ///     A list of all known external URLs for this artist, like Twitter, Facebook, etc.    
@@ -50,8 +50,8 @@ namespace AbyssalSpotify
         public int Popularity { get; }
 
         /// <summary>
-        ///     The Spotify ID for this artist.
+        ///     The Spotify ID data for this artist.
         /// </summary>
-        public string Id { get; }
+        public SpotifyUri Id { get; }
     }
 }

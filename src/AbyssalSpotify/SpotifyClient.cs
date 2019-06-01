@@ -31,6 +31,7 @@ namespace AbyssalSpotify
         /// <param name="authorizer"></param>
         public SpotifyClient(ISpotifyAuthorizer authorizer)
         {
+            if (authorizer is AuthorizationCodeAuthorizer) throw new NotImplementedException("AuthorizationCodeAuthorizer is not currently implemented.");
             HttpClient = new HttpClient();
             Authorizer = authorizer;
         }
