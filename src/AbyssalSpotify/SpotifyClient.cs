@@ -92,10 +92,5 @@ namespace AbyssalSpotify
             }
             return false;
         }
-
-        internal async Task<T> RequestAsync<T>(string endpoint)
-        {
-
-        }
     }
 }
