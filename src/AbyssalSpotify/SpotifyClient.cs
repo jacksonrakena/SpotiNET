@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
@@ -92,6 +93,33 @@ namespace AbyssalSpotify
                 return true;
             }
             return false;
+        }
+
+        internal async Task<JObject> RequestAsync(string endpoint, HttpMethod method)
+        {
+            await EnsureAuthorizedAsync();
+            var message = new HttpRequestMessage
+            {
+                Method = method,
+                RequestUri = new Uri("https://api.spotify.com/v1/" + endpoint)
+            };
+
+            var response = await HttpClient.SendAsync(message);
+            response.EnsureSuccessStatusCode();
+
+            return JObject.Parse(await response.Content.ReadAsStringAsync());
+        }
+
+        /// <summary>
+        ///     Gets an artist from the Spotify API with it's unique identifier.
+        /// </summary>
+        /// <param name="id">The base-62 Spotify ID to use when getting the artist.</param>
+        /// <returns>An asynchronous operation that will yield the <see cref="SpotifyArtist"/> that has the provided ID.</returns>
+        public async Task<SpotifyArtist> GetArtistAsync(string id)
+        {
+            var data = await RequestAsync("artists/" + id, HttpMethod.Get);
+
+            return new SpotifyArtist(data);
         }
     }
 }

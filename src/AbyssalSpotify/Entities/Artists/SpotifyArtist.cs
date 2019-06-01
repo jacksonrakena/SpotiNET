@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Collections.ObjectModel;
@@ -53,5 +54,16 @@ namespace AbyssalSpotify
         ///     The Spotify ID data for this artist.
         /// </summary>
         public SpotifyUri Id { get; }
+
+        internal SpotifyArtist(JObject data)
+        {
+            ExternalUrls = data["external_urls"].ToObject<ImmutableDictionary<string, string>>();
+            FollowerCount = data["followers"]["total"].ToObject<int>();
+            AssociatedGenres = data["genres"].ToObject<ImmutableList<string>>();
+            Images = data["images"].ToObject<ImmutableList<SpotifyImage>>();
+            Name = data["name"].ToObject<string>();
+            Popularity = data["popularity"].ToObject<int>();
+            Id = new SpotifyUri(data["uri"].ToObject<string>());
+        }
     }
 }

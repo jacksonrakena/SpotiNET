@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -24,7 +25,7 @@ namespace AbyssalSpotify
         /// </summary>
         public string Url { get; }
 
-        internal SpotifyImage(int? height, int? width, string url)
+        public SpotifyImage(int? height, int? width, string url)
         {
             Height = height;
             Width = width;
