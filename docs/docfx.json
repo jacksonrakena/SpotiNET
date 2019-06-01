@@ -60,6 +60,14 @@
     "noLangKeyword": false,
     "keepFileLink": false,
     "cleanupCacheHistory": false,
-    "disableGitFeatures": false
+    "disableGitFeatures": false,
+    "globalMetadata": {
+      "_appTitle": "AbyssalSpotify Documentation",
+      "_appFooter": "Copyright (c) 2019 abyssal512",
+      "_enableSearch": true
+    },
+    "xrefService": [
+      "https://xref.docs.microsoft.com/query?uid={uid}"
+    ]
   }
 }
