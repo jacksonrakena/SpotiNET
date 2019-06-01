@@ -6,12 +6,30 @@ using System.Threading.Tasks;
 
 namespace AbyssalSpotify
 {
+    /// <summary>
+    ///     Represents an HTTP client that can be used to interface with Spotify's API.
+    /// </summary>
     public class SpotifyClient
     {
+        /// <summary>
+        ///     The internal HTTP client to make requests with.
+        /// </summary>
         public HttpClient HttpClient { get; }
+
+        /// <summary>
+        ///     The authorizer that handles authorizing and maintaining authorizations with Spotify's accounts service.
+        /// </summary>
         public ISpotifyAuthorizer Authorizer { get; }
+
+        /// <summary>
+        ///     The current authorization data, as supplied by <see cref="Authorizer"/>. Will be <code>null</code> if no authorization has occurred yet.
+        /// </summary>
         public AuthorizationSet AuthorizationSet { get; private set; }
 
+        /// <summary>
+        ///     Creates a new <see cref="SpotifyClient"/> using the provided authorizer.
+        /// </summary>
+        /// <param name="authorizer"></param>
         public SpotifyClient(ISpotifyAuthorizer authorizer)
         {
             HttpClient = new HttpClient();
@@ -29,20 +47,32 @@ namespace AbyssalSpotify
             return FromClientCredentials($"{clientId}:{clientSecret}");
         }
 
+        /// <summary>
+        ///     Creates a new <see cref="SpotifyClient"/> using a combined set of client credentials, using format "[client id]:[client secret]".
+        /// </summary>
+        /// <example>
+        ///     This sample shows how to use <see cref="SpotifyClient.FromClientCredentials(string)"/> to create a <see cref="SpotifyClient"/>
+        ///     using a combined credential string.
+        ///     <code>
+        ///         var client = SpotifyClient.FromClientCredentials("MyClientId:MyClientSecret");
+        ///     </code>
+        /// </example>
+        /// <param name="combinedClientCredentials">The combined credential string.</param>
+        /// <returns></returns>
         public static SpotifyClient FromClientCredentials(string combinedClientCredentials)
         {
             return new SpotifyClient(new ClientCredentialsAuthorizer(combinedClientCredentials));
         }
 
         /// <summary>
-        ///     Forces an authorization or reauthorization. It is recommended to use <see cref="EnsureAuthorizedAsync"/> instead.
+        ///     Forces an authorization or reauthorization, regardless of the current client's authorization state.
+        ///     It is recommended to use <see cref="EnsureAuthorizedAsync"/> instead.
         /// </summary>
         /// <returns>An asynchronous operation that will yield the authorization result.</returns>
         public async Task<AuthorizationSet> AuthorizeAsync()
         {
             AuthorizationSet = await Authorizer.AuthorizeAsync(this);
-            // TODO: Replace AuthorizationSet.AccessToken with a way to get the refresh token for AuthorizationCodeAuthorizer
-            HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", AuthorizationSet.AccessToken);
+            HttpClient.DefaultRequestHeaders.Authorization = Authorizer.GetAuthenticationHeaderValue(AuthorizationSet);
 
             return AuthorizationSet;
         }

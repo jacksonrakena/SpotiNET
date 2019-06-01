@@ -46,6 +46,11 @@ namespace AbyssalSpotify.Authorization
             CombinedClientCredentials = combinedClientCredentials;
         }
 
+        /// <summary>
+        ///     Attempts to authorize with Spotify using the stored client credentials.
+        /// </summary>
+        /// <param name="client">The <see cref="SpotifyClient"/> that holds the <see cref="HttpClient"/> to use.</param>
+        /// <returns>An asynchronous operation that will yield an <see cref="AuthorizationSet"/> to use for future requests.</returns>
         public async Task<AuthorizationSet> AuthorizeAsync(SpotifyClient client)
         {
             var http = client.HttpClient;
@@ -75,6 +80,17 @@ namespace AbyssalSpotify.Authorization
             authorizationResult.Authorizer = this;
 
             return authorizationResult;
+        }
+
+        /// <summary>
+        ///     Builds an <see cref="AuthenticationHeaderValue"/> from an <see cref="AuthorizationSet"/> that has been created
+        ///     with a <see cref="ClientCredentialsAuthorizer"/>.
+        /// </summary>
+        /// <param name="set"></param>
+        /// <returns>An <see cref="AuthenticationHeaderValue"/> that can be used with Spotify requests.</returns>
+        public AuthenticationHeaderValue GetAuthenticationHeaderValue(AuthorizationSet set)
+        {
+            return new AuthenticationHeaderValue("Bearer", set.AccessToken);
         }
     }
 }
