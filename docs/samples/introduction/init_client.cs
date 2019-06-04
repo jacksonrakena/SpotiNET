@@ -1,0 +1,1 @@
+var client = SpotifyClient.FromClientCredentials("My Client Key", "My Client Secret");
