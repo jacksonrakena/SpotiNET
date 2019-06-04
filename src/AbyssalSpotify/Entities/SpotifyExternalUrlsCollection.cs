@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Text;
 
-namespace AbyssalSpotify.Entities
+namespace AbyssalSpotify
 {
     /// <summary>
     ///     Represents a collection of external URLs for a Spotify entity.

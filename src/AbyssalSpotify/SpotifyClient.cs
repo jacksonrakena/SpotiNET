@@ -1,5 +1,8 @@
 ﻿using Newtonsoft.Json.Linq;
 using System;
+using System.Collections.Generic;
+using System.Collections.Immutable;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
@@ -131,6 +134,24 @@ namespace AbyssalSpotify
             var data = await RequestAsync("artists/" + id, HttpMethod.Get);
 
             return new SpotifyArtist(data);
+        }
+
+        /// <summary>
+        ///     Gets a bulk collection of artists from the Spotify API with their unique identifiers.
+        /// </summary>
+        /// <param name="artistIds">A list of base-62 Spotify IDs representing the artists to find.</param>
+        /// <returns>An asynchronous operation that will yield an immutable collection of <see cref="SpotifyArtist"/> with the provided IDs.</returns>
+        /// <remarks>
+        ///     Inserting an invalid or unknown Spotify ID will result in that entry being <c>null</c> in the returning collection.
+        ///     Inserting duplicate Spotify IDs will result in duplicate entries of that artist in the returning collection.
+        /// </remarks>
+        public async Task<ImmutableList<SpotifyArtist>> GetArtistsAsync(IEnumerable<string> artistIds)
+        {
+            var l = artistIds.ToList();
+            if (l.Count > 50) throw new ArgumentOutOfRangeException(nameof(artistIds), "SpotifyClient#GetArtistsAsync does not allow more than 50 IDs.");
+            if (l.Count < 1) throw new ArgumentOutOfRangeException(nameof(artistIds), "SpotifyClient#GetArtistsAsync requires at least 1 ID.");
+            var data = (await RequestAsync($"artists?ids={string.Join(",", l)}", HttpMethod.Get))["artists"];
+            return data.ToObject<IEnumerable<JObject>>().Select(a => new SpotifyArtist(a)).ToImmutableList();
         }
     }
 }

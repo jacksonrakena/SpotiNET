@@ -1,4 +1,4 @@
-﻿using AbyssalSpotify.Entities;
+﻿using AbyssalSpotify;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
