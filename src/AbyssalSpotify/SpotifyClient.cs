@@ -83,6 +83,10 @@ namespace AbyssalSpotify
         ///     If the client is already authorized, nothing will happen and <c>false</c> will be returned.
         ///     If the client is not authorized, the authorization flow will be completed and <c>true</c> will be returned.
         /// </summary>
+        /// <remarks>
+        ///     Consumers of <see cref="SpotifyClient"/> should not need to run this method, as it is run as part of all authorized
+        ///     requests.
+        /// </remarks>
         /// <returns>An asynchronous operation that will yield a boolean indicating whether the client attempted to authorize.</returns>
         public async Task<bool> EnsureAuthorizedAsync()
         {
