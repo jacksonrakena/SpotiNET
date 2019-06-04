@@ -17,6 +17,7 @@ namespace AbyssalSpotify
     public class ClientCredentialsAuthorizer : ISpotifyAuthorizer
     {
         private static Uri ClientCredentialsAuthorizationEndpoint => new Uri("https://accounts.spotify.com/api/token");
+
         private static FormUrlEncodedContent ClientCredentialsContent = new FormUrlEncodedContent(new Dictionary<string, string>
         {
             {"grant_type", "client_credentials" }
@@ -55,15 +56,15 @@ namespace AbyssalSpotify
         {
             var http = client.HttpClient;
 
-            var request = new HttpRequestMessage();
+            var request = new HttpRequestMessage
+            {
+                RequestUri = ClientCredentialsAuthorizationEndpoint,
+                Content = ClientCredentialsContent,
+                Method = HttpMethod.Post
+            };
 
             request.Headers.Authorization = new AuthenticationHeaderValue(
-                "Basic",
-                Base64Utilities.EncodeBase64(CombinedClientCredentials));
-
-            request.RequestUri = ClientCredentialsAuthorizationEndpoint;
-            request.Content = ClientCredentialsContent;
-            request.Method = HttpMethod.Post;
+                "Basic", EncodeBase64(CombinedClientCredentials));
 
             var response = await http.SendAsync(request, HttpCompletionOption.ResponseContentRead);
 
@@ -91,6 +92,11 @@ namespace AbyssalSpotify
         public AuthenticationHeaderValue GetAuthenticationHeaderValue(AuthorizationSet set)
         {
             return new AuthenticationHeaderValue("Bearer", set.AccessToken);
+        }
+
+        private string EncodeBase64(string enc)
+        {
+            return Convert.ToBase64String(Encoding.UTF8.GetBytes(enc));
         }
     }
 }

@@ -31,5 +31,7 @@ namespace AbyssalSpotify
             Width = width;
             Url = url;
         }
+
+        public override string ToString() => Url;
     }
 }

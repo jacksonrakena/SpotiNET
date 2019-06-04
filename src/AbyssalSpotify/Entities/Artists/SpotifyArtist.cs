@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using AbyssalSpotify.Entities;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
@@ -13,16 +14,10 @@ namespace AbyssalSpotify
     public class SpotifyArtist
     {
         /// <summary>
-        ///     A list of all known external URLs for this artist, like Twitter, Facebook, etc.    
+        ///     A list of all known external URLs for this artist, like Twitter, Facebook, etc.
+        ///     This dictionary allows custom indexing for unknown properties.
         /// </summary>
-        /// <example>
-        ///     Here is an example of an external URL object.
-        ///     <code>
-        ///     var spotifyExternalUrl = artist.ExternalUrls["spotify"];
-        ///     var facebookExternalUrl = artist.ExternalUrls["facebook"];
-        ///     </code>
-        /// </example>
-        public ImmutableDictionary<string, string> ExternalUrls { get; }
+        public SpotifyExternalUrlsCollection ExternalUrls { get; }
 
         /// <summary>
         ///     The number of followers that this artist has on Spotify.
@@ -57,7 +52,7 @@ namespace AbyssalSpotify
 
         internal SpotifyArtist(JObject data)
         {
-            ExternalUrls = data["external_urls"].ToObject<ImmutableDictionary<string, string>>();
+            ExternalUrls = new SpotifyExternalUrlsCollection(data["external_urls"].ToObject<IDictionary<string, string>>());
             FollowerCount = data["followers"]["total"].ToObject<int>();
             AssociatedGenres = data["genres"].ToObject<ImmutableList<string>>();
             Images = data["images"].ToObject<ImmutableList<SpotifyImage>>();
