@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Collections.ObjectModel;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace AbyssalSpotify
 {
@@ -49,6 +50,14 @@ namespace AbyssalSpotify
         ///     The Spotify ID data for this artist.
         /// </summary>
         public SpotifyUri Id { get; }
+
+        /// <summary>
+        ///     Gets this artist's Related Artists.
+        /// </summary>
+        /// <returns>
+        ///     An asynchronous operation representing the Related Artists of this artist.
+        /// </returns>
+        public Task<ImmutableList<SpotifyArtist>> GetRelatedArtistsAsync() => Client.GetRelatedArtistsAsync(Id.Id);
 
         internal SpotifyArtist(SpotifyClient client, JObject data) : base(client)
         {
