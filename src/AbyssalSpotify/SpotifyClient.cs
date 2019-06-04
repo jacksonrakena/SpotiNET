@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
@@ -110,6 +111,7 @@ namespace AbyssalSpotify
                 Method = method,
                 RequestUri = new Uri("https://api.spotify.com/v1/" + endpoint)
             };
+            Console.WriteLine(endpoint);
 
             var response = await HttpClient.SendAsync(message);
             response.EnsureSuccessStatusCode();
@@ -169,6 +171,57 @@ namespace AbyssalSpotify
         {
             var data = (await RequestAsync($"artists/{artistId}/related-artists", HttpMethod.Get))["artists"];
             return data.ToObject<IEnumerable<JObject>>().Select(a => new SpotifyArtist(this, a)).ToImmutableList();
+        }
+
+        /// <summary>
+        ///     Gets an album from Spotify using its unique identifier.
+        /// </summary>
+        /// <param name="id">The album's unique identifier.</param>
+        /// <returns>
+        ///     An asynchronous operation that will yield a <see cref="SpotifyAlbum"/> representing the requested album.
+        /// </returns>
+        public async Task<SpotifyAlbum> GetAlbumAsync(string id)
+        {
+            var data = await RequestAsync($"albums/{id}", HttpMethod.Get);
+            return new SpotifyAlbum(this, data);
+        }
+
+        /// <summary>
+        ///     Gets a bulk collection of albums from Spotify using their unique identifiers.
+        /// </summary>
+        /// <param name="albumIds">A list of base-62 album IDs representing the albums to find.</param>
+        /// <param name="market">A <see cref="MarketReference"/> referencing the market to index for, or null to ignore markets.</param>
+        /// <returns>
+        ///     An asynchronous operation that will yield an immutable collection of <see cref="SpotifyAlbum"/> entities representing
+        ///     the related artists.
+        /// </returns>
+        public async Task<ImmutableList<SpotifyAlbum>> GetAlbumsAsync(IEnumerable<string> albumIds)
+        {
+            var ids = albumIds.ToList();
+            if (ids.Count < 1) throw new ArgumentOutOfRangeException(nameof(albumIds), "SpotifyClient#GetAlbumsAsync requires at least 1 album ID.");
+            if (ids.Count > 50) throw new ArgumentOutOfRangeException(nameof(albumIds), "SpotifyClient#GetAlbumsAsync does not allow more than 50 album IDs.");
+            var data = (await RequestAsync($"albums?ids={string.Join(",", ids)}", HttpMethod.Get))["albums"];
+
+            return data.ToObject<IEnumerable<JObject>>().Select(a => new SpotifyAlbum(this, a)).ToImmutableList();
+        }
+
+        /// <summary>
+        ///     Gets an album's tracks from Spotify using its unique identifier.
+        /// </summary>
+        /// <param name="albumId">The album's unique identifier.</param>
+        /// <param name="limit">The maximum number of tracks to return. Minimum is 1, maximum is 50.</param>
+        /// <param name="offset">The index of the first track to return.</param>
+        /// <returns>
+        ///     An asynchronous operaiton that will yield a paging container containing the requested tracks.
+        /// </returns>
+        public async Task<ISpotifyPagingResponse<SpotifyTrackReference>> GetAlbumTracksAsync(string albumId, int limit = 20, int offset = 0)
+        {
+            if (limit > 50) throw new ArgumentOutOfRangeException(nameof(limit), "SpotifyClient#GetAlbumTracksAsync does not allow a limit over 50.");
+            if (limit < 1) throw new ArgumentOutOfRangeException(nameof(limit), "SpotifyClient#GetAlbumTracksAsync requires that the limit be over 1.");
+
+            var data = await RequestAsync($"albums/{albumId}/tracks?limit={limit}&offset={offset}", HttpMethod.Get);
+
+            return new SpotifyTrackReferencePagingResponse(this, data);
         }
     }
 }
