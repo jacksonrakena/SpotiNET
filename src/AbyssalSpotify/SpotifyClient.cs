@@ -106,12 +106,16 @@ namespace AbyssalSpotify
         internal async Task<JObject> RequestAsync(string endpoint, HttpMethod method)
         {
             await EnsureAuthorizedAsync();
+            return await InternalRequestAsync(new Uri("https://api.spotify.com/v1/" + endpoint), method);
+        }
+
+        internal async Task<JObject> InternalRequestAsync(Uri requestUri, HttpMethod method)
+        {
             var message = new HttpRequestMessage
             {
                 Method = method,
-                RequestUri = new Uri("https://api.spotify.com/v1/" + endpoint)
+                RequestUri = requestUri
             };
-            Console.WriteLine(endpoint);
 
             var response = await HttpClient.SendAsync(message);
             response.EnsureSuccessStatusCode();
