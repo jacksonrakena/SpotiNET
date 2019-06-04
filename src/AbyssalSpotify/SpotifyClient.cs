@@ -133,14 +133,17 @@ namespace AbyssalSpotify
         {
             var data = await RequestAsync("artists/" + id, HttpMethod.Get);
 
-            return new SpotifyArtist(data);
+            return new SpotifyArtist(this, data);
         }
 
         /// <summary>
         ///     Gets a bulk collection of artists from the Spotify API with their unique identifiers.
         /// </summary>
         /// <param name="artistIds">A list of base-62 Spotify IDs representing the artists to find.</param>
-        /// <returns>An asynchronous operation that will yield an immutable collection of <see cref="SpotifyArtist"/> with the provided IDs.</returns>
+        /// <returns>
+        ///     An asynchronous operation that will yield an immutable collection of <see cref="SpotifyArtist"/>s representing
+        ///     the artists with the provided IDs.
+        /// </returns>
         /// <remarks>
         ///     Inserting an invalid or unknown Spotify ID will result in that entry being <c>null</c> in the returning collection.
         ///     Inserting duplicate Spotify IDs will result in duplicate entries of that artist in the returning collection.
@@ -151,7 +154,21 @@ namespace AbyssalSpotify
             if (l.Count > 50) throw new ArgumentOutOfRangeException(nameof(artistIds), "SpotifyClient#GetArtistsAsync does not allow more than 50 IDs.");
             if (l.Count < 1) throw new ArgumentOutOfRangeException(nameof(artistIds), "SpotifyClient#GetArtistsAsync requires at least 1 ID.");
             var data = (await RequestAsync($"artists?ids={string.Join(",", l)}", HttpMethod.Get))["artists"];
-            return data.ToObject<IEnumerable<JObject>>().Select(a => new SpotifyArtist(a)).ToImmutableList();
+            return data.ToObject<IEnumerable<JObject>>().Select(a => new SpotifyArtist(this, a)).ToImmutableList();
+        }
+
+        /// <summary>
+        ///     Gets a collection of an artist's Related Artists from the Spotify API using the artist's unique identifier.
+        /// </summary>
+        /// <param name="artistId">The base-62 Spotify ID to use when finding related artists.</param>
+        /// <returns>
+        ///     An asynchronous operation that will yield an immutable collection of <see cref="SpotifyArtist"/> entities representing
+        ///     the related artists.
+        /// </returns>
+        public async Task<ImmutableList<SpotifyArtist>> GetRelatedArtistsAsync(string artistId)
+        {
+            var data = (await RequestAsync($"artists/{artistId}/related-artists", HttpMethod.Get))["artists"];
+            return data.ToObject<IEnumerable<JObject>>().Select(a => new SpotifyArtist(this, a)).ToImmutableList();
         }
     }
 }

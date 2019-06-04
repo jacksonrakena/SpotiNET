@@ -16,16 +16,7 @@ namespace AbyssalSpotify.Tests
         {
             var client = SpotifyClient.FromClientCredentials(Environment.GetEnvironmentVariable("SpotifyCredentials", EnvironmentVariableTarget.Machine));
 
-            var atc = await client.GetArtistAsync("6yhD1KjhLxIETFF7vIRf8B");
-
-            Console.WriteLine(atc.Name);
-            Console.WriteLine(atc.FollowerCount + " followers");
-            Console.WriteLine("Genres: " + string.Join(", ", atc.AssociatedGenres));
-            Console.WriteLine(string.Join(", ", atc.ExternalUrls.Select(a => $"{a.Key}: {a.Value}")));
-            Console.WriteLine("Images: " + string.Join(", ", atc.Images.Select(a => a.Url)));
-            Console.WriteLine("Popularity %: " + atc.Popularity);
-
-            var artists = await client.GetArtistsAsync(new string[] { "20cozXBkQdesuJYvtvZ2vH", "3w6zswp5THsSKYLICUbDTZ" });
+            var artists = await client.GetRelatedArtistsAsync("20cozXBkQdesuJYvtvZ2vH");
 
             foreach (var artist in artists)
             {

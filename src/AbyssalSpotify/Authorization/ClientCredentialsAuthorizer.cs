@@ -18,7 +18,7 @@ namespace AbyssalSpotify
     {
         private static Uri ClientCredentialsAuthorizationEndpoint => new Uri("https://accounts.spotify.com/api/token");
 
-        private static FormUrlEncodedContent ClientCredentialsContent = new FormUrlEncodedContent(new Dictionary<string, string>
+        private readonly static FormUrlEncodedContent ClientCredentialsContent = new FormUrlEncodedContent(new Dictionary<string, string>
         {
             {"grant_type", "client_credentials" }
         });

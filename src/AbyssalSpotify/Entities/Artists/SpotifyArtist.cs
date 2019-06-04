@@ -11,7 +11,7 @@ namespace AbyssalSpotify
     /// <summary>
     ///     Represents a full artist entity returned by Spotify.
     /// </summary>
-    public class SpotifyArtist
+    public class SpotifyArtist : SpotifyEntity
     {
         /// <summary>
         ///     A list of all known external URLs for this artist, like Twitter, Facebook, etc.
@@ -50,7 +50,7 @@ namespace AbyssalSpotify
         /// </summary>
         public SpotifyUri Id { get; }
 
-        internal SpotifyArtist(JObject data)
+        internal SpotifyArtist(SpotifyClient client, JObject data) : base(client)
         {
             ExternalUrls = new SpotifyExternalUrlsCollection(data["external_urls"].ToObject<IDictionary<string, string>>());
             FollowerCount = data["followers"]["total"].ToObject<int>();
