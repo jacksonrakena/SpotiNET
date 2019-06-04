@@ -194,7 +194,6 @@ namespace AbyssalSpotify
         ///     Gets a bulk collection of albums from Spotify using their unique identifiers.
         /// </summary>
         /// <param name="albumIds">A list of base-62 album IDs representing the albums to find.</param>
-        /// <param name="market">A <see cref="MarketReference"/> referencing the market to index for, or null to ignore markets.</param>
         /// <returns>
         ///     An asynchronous operation that will yield an immutable collection of <see cref="SpotifyAlbum"/> entities representing
         ///     the related artists.

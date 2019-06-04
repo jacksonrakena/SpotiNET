@@ -7,7 +7,7 @@ using System.Text;
 
 namespace AbyssalSpotify
 {
-    public class SpotifyTrackReferencePagingResponse : ISpotifyPagingResponse<SpotifyTrackReference>
+    internal class SpotifyTrackReferencePagingResponse : ISpotifyPagingResponse<SpotifyTrackReference>
     {
         public ImmutableList<SpotifyTrackReference> Items { get; }
 
