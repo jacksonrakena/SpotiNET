@@ -76,7 +76,7 @@ namespace AbyssalSpotify
         /// <returns>An asynchronous operation that will yield the authorization result.</returns>
         public async Task<AuthorizationSet> AuthorizeAsync()
         {
-            AuthorizationSet = await Authorizer.AuthorizeAsync(this);
+            AuthorizationSet = await Authorizer.AuthorizeAsync(this).ConfigureAwait(false);
             HttpClient.DefaultRequestHeaders.Authorization = Authorizer.GetAuthenticationHeaderValue(AuthorizationSet);
 
             return AuthorizationSet;
@@ -97,7 +97,7 @@ namespace AbyssalSpotify
             if (AuthorizationSet == null || AuthorizationSet.AccessToken == null || AuthorizationSet.AccessToken == string.Empty
                 || AuthorizationSet.ExpirationTime.ToUnixTimeSeconds() < DateTimeOffset.Now.ToUnixTimeSeconds())
             {
-                await AuthorizeAsync();
+                await AuthorizeAsync().ConfigureAwait(false);
                 return true;
             }
             return false;
@@ -105,8 +105,8 @@ namespace AbyssalSpotify
 
         internal async Task<JObject> RequestAsync(string endpoint, HttpMethod method)
         {
-            await EnsureAuthorizedAsync();
-            return await InternalRequestAsync(new Uri("https://api.spotify.com/v1/" + endpoint), method);
+            await EnsureAuthorizedAsync().ConfigureAwait(false);
+            return await InternalRequestAsync(new Uri("https://api.spotify.com/v1/" + endpoint), method).ConfigureAwait(false);
         }
 
         internal async Task<JObject> InternalRequestAsync(Uri requestUri, HttpMethod method)
@@ -117,10 +117,10 @@ namespace AbyssalSpotify
                 RequestUri = requestUri
             };
 
-            var response = await HttpClient.SendAsync(message);
+            var response = await HttpClient.SendAsync(message).ConfigureAwait(false);
             response.EnsureSuccessStatusCode();
 
-            return JObject.Parse(await response.Content.ReadAsStringAsync());
+            return JObject.Parse(await response.Content.ReadAsStringAsync().ConfigureAwait(false));
         }
 
         /// <summary>
@@ -137,7 +137,7 @@ namespace AbyssalSpotify
         /// </example>
         public async Task<SpotifyArtist> GetArtistAsync(string id)
         {
-            var data = await RequestAsync("artists/" + id, HttpMethod.Get);
+            var data = await RequestAsync("artists/" + id, HttpMethod.Get).ConfigureAwait(false);
 
             return new SpotifyArtist(this, data);
         }
@@ -159,7 +159,7 @@ namespace AbyssalSpotify
             var l = artistIds.ToList();
             if (l.Count > 50) throw new ArgumentOutOfRangeException(nameof(artistIds), "SpotifyClient#GetArtistsAsync does not allow more than 50 IDs.");
             if (l.Count < 1) throw new ArgumentOutOfRangeException(nameof(artistIds), "SpotifyClient#GetArtistsAsync requires at least 1 ID.");
-            var data = (await RequestAsync($"artists?ids={string.Join(",", l)}", HttpMethod.Get))["artists"];
+            var data = (await RequestAsync($"artists?ids={string.Join(",", l)}", HttpMethod.Get).ConfigureAwait(false))["artists"];
             return data.ToObject<IEnumerable<JObject>>().Select(a => new SpotifyArtist(this, a)).ToImmutableList();
         }
 
@@ -173,7 +173,7 @@ namespace AbyssalSpotify
         /// </returns>
         public async Task<ImmutableList<SpotifyArtist>> GetRelatedArtistsAsync(string artistId)
         {
-            var data = (await RequestAsync($"artists/{artistId}/related-artists", HttpMethod.Get))["artists"];
+            var data = (await RequestAsync($"artists/{artistId}/related-artists", HttpMethod.Get).ConfigureAwait(false))["artists"];
             return data.ToObject<IEnumerable<JObject>>().Select(a => new SpotifyArtist(this, a)).ToImmutableList();
         }
 
@@ -186,7 +186,7 @@ namespace AbyssalSpotify
         /// </returns>
         public async Task<SpotifyAlbum> GetAlbumAsync(string id)
         {
-            var data = await RequestAsync($"albums/{id}", HttpMethod.Get);
+            var data = await RequestAsync($"albums/{id}", HttpMethod.Get).ConfigureAwait(false);
             return new SpotifyAlbum(this, data);
         }
 
@@ -203,7 +203,7 @@ namespace AbyssalSpotify
             var ids = albumIds.ToList();
             if (ids.Count < 1) throw new ArgumentOutOfRangeException(nameof(albumIds), "SpotifyClient#GetAlbumsAsync requires at least 1 album ID.");
             if (ids.Count > 50) throw new ArgumentOutOfRangeException(nameof(albumIds), "SpotifyClient#GetAlbumsAsync does not allow more than 50 album IDs.");
-            var data = (await RequestAsync($"albums?ids={string.Join(",", ids)}", HttpMethod.Get))["albums"];
+            var data = (await RequestAsync($"albums?ids={string.Join(",", ids)}", HttpMethod.Get).ConfigureAwait(false))["albums"];
 
             return data.ToObject<IEnumerable<JObject>>().Select(a => new SpotifyAlbum(this, a)).ToImmutableList();
         }
@@ -222,7 +222,7 @@ namespace AbyssalSpotify
             if (limit > 50) throw new ArgumentOutOfRangeException(nameof(limit), "SpotifyClient#GetAlbumTracksAsync does not allow a limit over 50.");
             if (limit < 1) throw new ArgumentOutOfRangeException(nameof(limit), "SpotifyClient#GetAlbumTracksAsync requires that the limit be over 1.");
 
-            var data = await RequestAsync($"albums/{albumId}/tracks?limit={limit}&offset={offset}", HttpMethod.Get);
+            var data = await RequestAsync($"albums/{albumId}/tracks?limit={limit}&offset={offset}", HttpMethod.Get).ConfigureAwait(false);
 
             return new SpotifyTrackReferencePagingResponse(this, data);
         }
