@@ -66,11 +66,11 @@ namespace AbyssalSpotify
             request.Headers.Authorization = new AuthenticationHeaderValue(
                 "Basic", EncodeBase64(CombinedClientCredentials));
 
-            var response = await http.SendAsync(request, HttpCompletionOption.ResponseContentRead);
+            var response = await http.SendAsync(request, HttpCompletionOption.ResponseContentRead).ConfigureAwait(false);
 
             response.EnsureSuccessStatusCode();
 
-            var responseString = await response.Content.ReadAsStringAsync();
+            var responseString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 
             var authorizationResult = new AuthorizationSet();
             var jsonData = JObject.Parse(responseString);
