@@ -22,6 +22,7 @@ steps:
     restoreSolution: '$(solution)'
 
 - task: VSBuild@1
+  displayName: 'Build project'
   inputs:
     solution: '$(solution)'
     platform: '$(buildPlatform)'
