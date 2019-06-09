@@ -34,7 +34,7 @@ steps:
     configuration: '$(buildConfiguration)'
 
 - script: |
-    dotnet pack "src\AbyssalSpotify\AbyssalSpotify.csproj" -o "../../artifacts/" -c $(BuildConfiguration) /p:BuildNumber=$(buildNumber) /p:IsTagBuild=$(buildTag)
+    dotnet pack "src\AbyssalSpotify\AbyssalSpotify.csproj" -o "../../artifacts/" -c $(buildConfiguration) /p:BuildNumber=$(Build.BuildNumber)
   displayName: 'Pack projects'
 
 - task: NuGetCommand@2
