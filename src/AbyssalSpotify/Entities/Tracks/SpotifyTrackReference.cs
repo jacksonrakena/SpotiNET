@@ -13,12 +13,12 @@ namespace AbyssalSpotify
         /// <summary>
         ///     A list of references to the artists who performed the track.
         /// </summary>
-        public ImmutableList<SpotifyArtistReference> Artists { get; }
+        public ImmutableArray<SpotifyArtistReference> Artists { get; }
 
         /// <summary>
         ///     A list of ISO 3166-1 alpha-2 country codes, representing markets in which this track can be played.
         /// </summary>
-        public ImmutableList<string> AvailableMarkets { get; }
+        public ImmutableArray<string> AvailableMarkets { get; }
 
         /// <summary>
         ///     The disc number, usually <c>1</c> unless the album consists of more than one disc.
@@ -70,8 +70,8 @@ namespace AbyssalSpotify
 
         internal SpotifyTrackReference(SpotifyClient client, JObject data) : base(client)
         {
-            Artists = data["artists"].ToObject<IEnumerable<JObject>>().Select(a => new SpotifyArtistReference(client, a)).ToImmutableList();
-            AvailableMarkets = data["available_markets"].ToObject<ImmutableList<string>>();
+            Artists = data["artists"].ToObject<IEnumerable<JObject>>().Select(a => new SpotifyArtistReference(client, a)).ToImmutableArray();
+            AvailableMarkets = data["available_markets"].ToObject<ImmutableArray<string>>();
             DiscNumber = data["disc_number"].ToObject<int>();
             Duration = TimeSpan.FromMilliseconds(data["duration_ms"].ToObject<int>());
             HasExplicitLyrics = data["explicit"].ToObject<bool>();

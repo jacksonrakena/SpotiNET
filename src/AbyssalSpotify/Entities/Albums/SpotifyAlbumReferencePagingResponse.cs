@@ -9,7 +9,7 @@ namespace AbyssalSpotify
 {
     internal class SpotifyAlbumReferencePagingResponse : ISpotifyPagingResponse<SpotifyAlbumReference>
     {
-        public ImmutableList<SpotifyAlbumReference> Items { get; }
+        public ImmutableArray<SpotifyAlbumReference> Items { get; }
 
         public int Limit { get; }
 
@@ -23,7 +23,7 @@ namespace AbyssalSpotify
 
             Limit = data["limit"].ToObject<int>();
             Total = data["total"].ToObject<int>();
-            Items = data["items"].ToObject<IEnumerable<JObject>>().Select(a => new SpotifyAlbumReference(a, _client)).ToImmutableList();
+            Items = data["items"].ToObject<IEnumerable<JObject>>().Select(a => new SpotifyAlbumReference(a, _client)).ToImmutableArray();
         }
 
         internal SpotifyAlbumReferencePagingResponse(SpotifyClient client)
@@ -31,7 +31,7 @@ namespace AbyssalSpotify
             _client = client;
             Limit = 0;
             Total = 0;
-            Items = ImmutableList<SpotifyAlbumReference>.Empty;
+            Items = ImmutableArray<SpotifyAlbumReference>.Empty;
         }
     }
 }

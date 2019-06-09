@@ -15,7 +15,7 @@ namespace AbyssalSpotify
         /// <summary>
         ///     The requested items.
         /// </summary>
-        ImmutableList<T> Items { get; }
+        ImmutableArray<T> Items { get; }
 
         /// <summary>
         ///     The maximum number of items in the response (<see cref="Items"/>).

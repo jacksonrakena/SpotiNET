@@ -29,12 +29,12 @@ namespace AbyssalSpotify
         ///     A list of genres this artist is known to be associated with.
         ///     If the artist is not classified, this array will be empty.
         /// </summary>
-        public ImmutableList<string> AssociatedGenres { get; }
+        public ImmutableArray<string> AssociatedGenres { get; }
 
         /// <summary>
         ///     Images of the artist in various sizes.
         /// </summary>
-        public ImmutableList<SpotifyImage> Images { get; }
+        public ImmutableArray<SpotifyImage> Images { get; }
 
         /// <summary>
         ///     The name of the artist.
@@ -57,14 +57,14 @@ namespace AbyssalSpotify
         /// <returns>
         ///     An asynchronous operation representing the Related Artists of this artist.
         /// </returns>
-        public Task<ImmutableList<SpotifyArtist>> GetRelatedArtistsAsync() => Client.GetRelatedArtistsAsync(Id.Id);
+        public Task<ImmutableArray<SpotifyArtist>> GetRelatedArtistsAsync() => Client.GetRelatedArtistsAsync(Id.Id);
 
         internal SpotifyArtist(SpotifyClient client, JObject data) : base(client)
         {
             ExternalUrls = new SpotifyExternalUrlsCollection(data["external_urls"].ToObject<IDictionary<string, string>>());
             FollowerCount = data["followers"]["total"].ToObject<int>();
-            AssociatedGenres = data["genres"].ToObject<ImmutableList<string>>();
-            Images = data["images"].ToObject<ImmutableList<SpotifyImage>>();
+            AssociatedGenres = data["genres"].ToObject<ImmutableArray<string>>();
+            Images = data["images"].ToObject<ImmutableArray<SpotifyImage>>();
             Name = data["name"].ToObject<string>();
             Popularity = data["popularity"].ToObject<int>();
             Id = new SpotifyUri(data["uri"].ToObject<string>());

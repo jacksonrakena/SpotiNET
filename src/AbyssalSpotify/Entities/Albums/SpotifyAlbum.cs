@@ -20,7 +20,7 @@ namespace AbyssalSpotify
         /// <summary>
         ///     The artists that contributed to this album.
         /// </summary>
-        public ImmutableList<SpotifyArtistReference> Artists { get; }
+        public ImmutableArray<SpotifyArtistReference> Artists { get; }
 
         /// <summary>
         ///     A list of ISO 3166-1 alpha-2 country codes, representing markets in which this album is available.
@@ -28,12 +28,12 @@ namespace AbyssalSpotify
         /// <remarks>
         ///     An "available market" is a market where at least one of the tracks on this album is available.
         /// </remarks>
-        public ImmutableList<string> AvailableMarkets { get; }
+        public ImmutableArray<string> AvailableMarkets { get; }
 
         /// <summary>
         ///     A list of copyright statements held for this album.
         /// </summary>
-        public ImmutableList<SpotifyAlbumCopyright> Copyrights { get; }
+        public ImmutableArray<SpotifyAlbumCopyright> Copyrights { get; }
 
         /// <summary>
         ///     A collection of known external IDs for this album.
@@ -53,7 +53,7 @@ namespace AbyssalSpotify
         /// <summary>
         ///     Cover art for this album, in various sizes.
         /// </summary>
-        public ImmutableList<SpotifyImage> Images { get; }
+        public ImmutableArray<SpotifyImage> Images { get; }
 
         /// <summary>
         ///     The recording/production label for this album.
@@ -87,17 +87,17 @@ namespace AbyssalSpotify
         internal SpotifyAlbum(SpotifyClient client, JObject data) : base(client)
         {
             Type = data["album_type"].ToObject<AlbumType>();
-            Artists = data["artists"].ToObject<IEnumerable<JObject>>().Select(a => new SpotifyArtistReference(client, a)).ToImmutableList();
-            AvailableMarkets = data["available_markets"].ToObject<ImmutableList<string>>();
+            Artists = data["artists"].ToObject<IEnumerable<JObject>>().Select(a => new SpotifyArtistReference(client, a)).ToImmutableArray();
+            AvailableMarkets = data["available_markets"].ToObject<ImmutableArray<string>>();
             Copyrights = data["copyrights"]
                 .ToObject<IEnumerable<JObject>>()
                 .Select(a =>
                 new SpotifyAlbumCopyright(a["text"].ToObject<string>(), a["type"].ToObject<string>() == "C" ? AlbumCopyrightType.Copyright : AlbumCopyrightType.PerformanceCopyright))
-                .ToImmutableList();
+                .ToImmutableArray();
             ExternalIds = new SpotifyExternalIdsCollection(data["external_ids"].ToObject<IDictionary<string, string>>());
             ExternalUrls = new SpotifyExternalUrlsCollection(data["external_urls"].ToObject<IDictionary<string, string>>());
             Id = new SpotifyUri(data["uri"].ToObject<string>());
-            Images = data["images"].ToObject<ImmutableList<SpotifyImage>>();
+            Images = data["images"].ToObject<ImmutableArray<SpotifyImage>>();
             Label = data["label"].ToObject<string>();
             Name = data["name"].ToObject<string>();
             Popularity = data["popularity"].ToObject<int>();

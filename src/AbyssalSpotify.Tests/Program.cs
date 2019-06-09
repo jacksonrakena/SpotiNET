@@ -25,9 +25,9 @@ namespace AbyssalSpotify.Tests
 
             var albums = await client.SearchAsync("Dreaming", SearchType.Album);
 
-            Console.WriteLine("Tracks: " + albums.Tracks.Items.Count);
-            Console.WriteLine("Albums: " + albums.Albums.Items.Count);
-            Console.WriteLine("Artists: " + albums.Artists.Items.Count);
+            Console.WriteLine("Tracks: " + albums.Tracks.Items.Length);
+            Console.WriteLine("Albums: " + albums.Albums.Items.Length);
+            Console.WriteLine("Artists: " + albums.Artists.Items.Length);
 
             Console.ReadKey();
         }

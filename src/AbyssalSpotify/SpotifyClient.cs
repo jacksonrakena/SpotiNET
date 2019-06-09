@@ -94,7 +94,7 @@ namespace AbyssalSpotify
         /// <returns>An asynchronous operation that will yield a boolean indicating whether the client attempted to authorize.</returns>
         public async Task<bool> EnsureAuthorizedAsync()
         {
-            if (AuthorizationSet == null || AuthorizationSet.AccessToken == null || AuthorizationSet.AccessToken == string.Empty
+            if (AuthorizationSet == null || string.IsNullOrEmpty(AuthorizationSet.AccessToken)
                 || AuthorizationSet.ExpirationTime.ToUnixTimeSeconds() < DateTimeOffset.Now.ToUnixTimeSeconds())
             {
                 await AuthorizeAsync().ConfigureAwait(false);
@@ -154,13 +154,13 @@ namespace AbyssalSpotify
         ///     Inserting an invalid or unknown Spotify ID will result in that entry being <c>null</c> in the returning collection.
         ///     Inserting duplicate Spotify IDs will result in duplicate entries of that artist in the returning collection.
         /// </remarks>
-        public async Task<ImmutableList<SpotifyArtist>> GetArtistsAsync(IEnumerable<string> artistIds)
+        public async Task<ImmutableArray<SpotifyArtist>> GetArtistsAsync(IEnumerable<string> artistIds)
         {
             var l = artistIds.ToList();
             if (l.Count > 50) throw new ArgumentOutOfRangeException(nameof(artistIds), "SpotifyClient#GetArtistsAsync does not allow more than 50 IDs.");
             if (l.Count < 1) throw new ArgumentOutOfRangeException(nameof(artistIds), "SpotifyClient#GetArtistsAsync requires at least 1 ID.");
             var data = (await RequestAsync($"artists?ids={string.Join(",", l)}", HttpMethod.Get).ConfigureAwait(false))["artists"];
-            return data.ToObject<IEnumerable<JObject>>().Select(a => new SpotifyArtist(this, a)).ToImmutableList();
+            return data.ToObject<IEnumerable<JObject>>().Select(a => new SpotifyArtist(this, a)).ToImmutableArray();
         }
 
         /// <summary>
@@ -171,10 +171,10 @@ namespace AbyssalSpotify
         ///     An asynchronous operation that will yield an immutable collection of <see cref="SpotifyArtist"/> entities representing
         ///     the related artists.
         /// </returns>
-        public async Task<ImmutableList<SpotifyArtist>> GetRelatedArtistsAsync(string artistId)
+        public async Task<ImmutableArray<SpotifyArtist>> GetRelatedArtistsAsync(string artistId)
         {
             var data = (await RequestAsync($"artists/{artistId}/related-artists", HttpMethod.Get).ConfigureAwait(false))["artists"];
-            return data.ToObject<IEnumerable<JObject>>().Select(a => new SpotifyArtist(this, a)).ToImmutableList();
+            return data.ToObject<IEnumerable<JObject>>().Select(a => new SpotifyArtist(this, a)).ToImmutableArray();
         }
 
         /// <summary>
@@ -198,14 +198,14 @@ namespace AbyssalSpotify
         ///     An asynchronous operation that will yield an immutable collection of <see cref="SpotifyAlbum"/> entities representing
         ///     the related artists.
         /// </returns>
-        public async Task<ImmutableList<SpotifyAlbum>> GetAlbumsAsync(IEnumerable<string> albumIds)
+        public async Task<ImmutableArray<SpotifyAlbum>> GetAlbumsAsync(IEnumerable<string> albumIds)
         {
             var ids = albumIds.ToList();
             if (ids.Count < 1) throw new ArgumentOutOfRangeException(nameof(albumIds), "SpotifyClient#GetAlbumsAsync requires at least 1 album ID.");
             if (ids.Count > 50) throw new ArgumentOutOfRangeException(nameof(albumIds), "SpotifyClient#GetAlbumsAsync does not allow more than 50 album IDs.");
             var data = (await RequestAsync($"albums?ids={string.Join(",", ids)}", HttpMethod.Get).ConfigureAwait(false))["albums"];
 
-            return data.ToObject<IEnumerable<JObject>>().Select(a => new SpotifyAlbum(this, a)).ToImmutableList();
+            return data.ToObject<IEnumerable<JObject>>().Select(a => new SpotifyAlbum(this, a)).ToImmutableArray();
         }
 
         /// <summary>
@@ -258,13 +258,13 @@ namespace AbyssalSpotify
         ///     Inserting an invalid or unknown Spotify ID will result in that entry being <c>null</c> in the returning collection.
         ///     Inserting duplicate Spotify IDs will result in duplicate entries of that track in the returning collection.
         /// </remarks>
-        public async Task<ImmutableList<SpotifyTrack>> GetTracksAsync(IEnumerable<string> trackIds)
+        public async Task<ImmutableArray<SpotifyTrack>> GetTracksAsync(IEnumerable<string> trackIds)
         {
             var l = trackIds.ToList();
             if (l.Count > 50) throw new ArgumentOutOfRangeException(nameof(trackIds), "SpotifyClient#GetTracksAsync does not allow more than 50 IDs.");
             if (l.Count < 1) throw new ArgumentOutOfRangeException(nameof(trackIds), "SpotifyClient#GetTracksAsync requires at least 1 ID.");
             var data = (await RequestAsync($"tracks?ids={string.Join(",", l)}", HttpMethod.Get).ConfigureAwait(false))["tracks"];
-            return data.ToObject<IEnumerable<JObject>>().Select(a => new SpotifyTrack(a, this)).ToImmutableList();
+            return data.ToObject<IEnumerable<JObject>>().Select(a => new SpotifyTrack(a, this)).ToImmutableArray();
         }
 
         /// <summary>
