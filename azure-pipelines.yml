@@ -34,13 +34,13 @@ steps:
     configuration: '$(buildConfiguration)'
 
 - script: |
-    dotnet pack "src\AbyssalSpotify\AbyssalSpotify.csproj" -c $(BuildConfiguration) /p:BuildNumber=$(buildNumber) /p:IsTagBuild=$(buildTag)
+    dotnet pack "src\AbyssalSpotify\AbyssalSpotify.csproj" -o "../../artifacts/" -c $(BuildConfiguration) /p:BuildNumber=$(buildNumber) /p:IsTagBuild=$(buildTag)
   displayName: 'Pack projects'
 
 - task: NuGetCommand@2
   displayName: 'Push project to NuGet'
   inputs:
     command: 'push'
-    packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
+    packagesToPush: 'artfifacts/*.nupkg;!artifacts/*.symbols.nupkg'
     nuGetFeedType: 'external'
     publishFeedCredentials: 'NuGet abyssal512'
