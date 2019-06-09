@@ -3,7 +3,8 @@
     <VersionPrefix>1.0.0</VersionPrefix>
     <VersionPrefix Condition=" '$(BuildNumber)' != '' ">$(VersionPrefix)-$(BuildNumber)</VersionPrefix>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <AssemblyName>A Spotify API wrapper for .NET Standard 2.0.</AssemblyName>
+    <AssemblyName>AbyssalSpotify</AssemblyName>
+    <Description>A Spotify API wrapper for .NET Standard 2.0.</Description>
     <Authors>abyssal512</Authors>
     <PackageTags>spotify;spotify-api</PackageTags>
     <PackageLicenseUrl>https://github.com/abyssal512/AbyssalSpotify/blob/master/LICENSE.md</PackageLicenseUrl>
