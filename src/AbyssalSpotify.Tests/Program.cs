@@ -23,9 +23,11 @@ namespace AbyssalSpotify.Tests
             //    PrintArtist(artist);
             //}
 
-            var albums = await client.GetTracksAsync(new[] { "1S30kHvkkdMkcuCTGSgS41", "7l9uOhfVJC8Y0c6PXHrgbs", "5hi8rVr3NZvIEjlk8Ts8Tx" });
+            var albums = await client.SearchAsync("Dreaming", SearchType.Album);
 
-            foreach (var track in albums) PrintTrack(track);
+            Console.WriteLine("Tracks: " + albums.Tracks.Items.Count);
+            Console.WriteLine("Albums: " + albums.Albums.Items.Count);
+            Console.WriteLine("Artists: " + albums.Artists.Items.Count);
 
             Console.ReadKey();
         }

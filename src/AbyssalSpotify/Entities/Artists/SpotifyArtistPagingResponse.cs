@@ -7,9 +7,9 @@ using System.Text;
 
 namespace AbyssalSpotify
 {
-    internal class SpotifyTrackPagingResponse : ISpotifyPagingResponse<SpotifyTrack>
+    internal class SpotifyArtistPagingResponse : ISpotifyPagingResponse<SpotifyArtist>
     {
-        public ImmutableList<SpotifyTrack> Items { get; }
+        public ImmutableList<SpotifyArtist> Items { get; }
 
         public int Limit { get; }
 
@@ -17,21 +17,21 @@ namespace AbyssalSpotify
 
         private readonly SpotifyClient _client;
 
-        internal SpotifyTrackPagingResponse(SpotifyClient client, JToken data)
+        internal SpotifyArtistPagingResponse(SpotifyClient client, JToken data)
         {
             _client = client;
 
             Limit = data["limit"].ToObject<int>();
             Total = data["total"].ToObject<int>();
-            Items = data["items"].ToObject<IEnumerable<JObject>>().Select(a => new SpotifyTrack(a, _client)).ToImmutableList();
+            Items = data["items"].ToObject<IEnumerable<JObject>>().Select(a => new SpotifyArtist(_client, a)).ToImmutableList();
         }
 
-        internal SpotifyTrackPagingResponse(SpotifyClient client)
+        internal SpotifyArtistPagingResponse(SpotifyClient client)
         {
             _client = client;
             Limit = 0;
             Total = 0;
-            Items = ImmutableList<SpotifyTrack>.Empty;
+            Items = ImmutableList<SpotifyArtist>.Empty;
         }
     }
 }

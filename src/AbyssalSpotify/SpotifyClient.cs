@@ -266,5 +266,27 @@ namespace AbyssalSpotify
             var data = (await RequestAsync($"tracks?ids={string.Join(",", l)}", HttpMethod.Get).ConfigureAwait(false))["tracks"];
             return data.ToObject<IEnumerable<JObject>>().Select(a => new SpotifyTrack(a, this)).ToImmutableList();
         }
+
+        /// <summary>
+        ///     Searches Spotify's database for an entity using query parameters.
+        /// </summary>
+        /// <param name="query">The query to use. See https://developer.spotify.com/documentation/web-api/reference/search/search/#writing-a-query---guidelines for how to use this.</param>
+        /// <param name="searchType">The type of entity to search for. You can combine types using enum flags.</param>
+        /// <param name="limit">The maximum number of results to return, per type.</param>
+        /// <param name="offset">The index of the first result to return. 0 = the first result.</param>
+        /// <returns>An asynchronous operation representing the search response.</returns>
+        /// <example>
+        ///     Here is an example showing how to use this method to search for 3 albums and 3 tracks with the name "hello".
+        ///     <code>
+        ///     var client = SpotifyClient.FromClientCredentials("my id", "my secret");
+        ///     var response = await SpotifyClient.SearchAsync("hello", SearchType.Track | SearchType.Album, 3);
+        ///     var song = response.Tracks.Items.First();
+        ///     </code>
+        /// </example>
+        public async Task<SpotifySearchResponse> SearchAsync(string query, SearchType searchType, int limit = 20, int offset = 0)
+        {
+            var data = await RequestAsync($"search?q={query.Replace(" ", "%20")}&type={searchType.ToString().ToLower()}&limit={limit}&offset={offset}", HttpMethod.Get);
+            return new SpotifySearchResponse(data, this);
+        }
     }
 }
