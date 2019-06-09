@@ -10,7 +10,7 @@ namespace AbyssalSpotify
     ///     A light data class containing some artist data, sometimes returned by the Spotify API
     ///     in lieu of a full <see cref="SpotifyArtist"/> object.
     /// </summary>
-    public class SpotifyArtistReference : SpotifyEntity
+    public class SpotifyArtistReference : SpotifyReference<SpotifyArtist>
     {
         /// <summary>
         ///     A list of all known external URLs for this artist, like Twitter, Facebook, etc.
@@ -34,7 +34,7 @@ namespace AbyssalSpotify
         /// <returns>
         ///     An asynchronous operation representing the <see cref="SpotifyArtist"/> that this <see cref="SpotifyArtistReference"/> represents.
         /// </returns>
-        public Task<SpotifyArtist> GetFullArtistAsync() => Client.GetArtistAsync(Id.Id);
+        public override Task<SpotifyArtist> GetFullEntityAsync() => Client.GetArtistAsync(Id.Id);
 
         internal SpotifyArtistReference(SpotifyClient client, JObject data) : base(client)
         {

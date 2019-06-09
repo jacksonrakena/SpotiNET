@@ -23,11 +23,19 @@ namespace AbyssalSpotify.Tests
             //    PrintArtist(artist);
             //}
 
-            var albums = await client.GetAlbumTracksAsync("4xtHySb6XaNo8SLRgfpUSu");
+            var albums = await client.GetTracksAsync(new[] { "1S30kHvkkdMkcuCTGSgS41", "7l9uOhfVJC8Y0c6PXHrgbs", "5hi8rVr3NZvIEjlk8Ts8Tx" });
 
-            foreach (var album in albums.Items) PrintTrackRef(album);
+            foreach (var track in albums) PrintTrack(track);
 
             Console.ReadKey();
+        }
+
+        private static void PrintTrack(SpotifyTrack track)
+        {
+            Console.WriteLine("Name: " + track.Name);
+            Console.WriteLine("Artists: " + string.Join(", ", track.Artists.Select(a => a.Name)));
+            Console.WriteLine("Album: " + track.Album.Name);
+            Console.WriteLine("Id: " + track.Id);
         }
 
         private static void PrintTrackRef(SpotifyTrackReference track)

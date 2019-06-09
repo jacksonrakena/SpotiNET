@@ -52,5 +52,7 @@ namespace AbyssalSpotify
 
             Url = $"http://open.spotify.com/{CategoryId}/{Id}";
         }
+
+        public override string ToString() => Uri;
     }
 }

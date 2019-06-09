@@ -226,5 +226,45 @@ namespace AbyssalSpotify
 
             return new SpotifyTrackReferencePagingResponse(this, data);
         }
+
+        /// <summary>
+        ///     Gets a track from the Spotify API with it's unique identifier.
+        /// </summary>
+        /// <param name="id">The base-62 Spotify ID to use when getting the track.</param>
+        /// <returns>An asynchronous operation that will yield the <see cref="SpotifyTrack"/> that has the provided ID.</returns>
+        /// <example>
+        ///     Here is an example of getting a Spotify track.
+        ///     <code>
+        ///     var track = await client.GetTrackAsync("1S30kHvkkdMkcuCTGSgS41");
+        ///     Console.WriteLine(track.Name);
+        ///     </code>
+        /// </example>
+        public async Task<SpotifyTrack> GetTrackAsync(string id)
+        {
+            var data = await RequestAsync("tracks/" + id, HttpMethod.Get).ConfigureAwait(false);
+
+            return new SpotifyTrack(data, this);
+        }
+
+        /// <summary>
+        ///     Gets a bulk collection of tracks from the Spotify API with their unique identifiers.
+        /// </summary>
+        /// <param name="trackIds">A list of base-62 Spotify IDs representing the tracks to find.</param>
+        /// <returns>
+        ///     An asynchronous operation that will yield an immutable collection of <see cref="SpotifyTrack"/>s representing
+        ///     the tracks with the provided IDs.
+        /// </returns>
+        /// <remarks>
+        ///     Inserting an invalid or unknown Spotify ID will result in that entry being <c>null</c> in the returning collection.
+        ///     Inserting duplicate Spotify IDs will result in duplicate entries of that track in the returning collection.
+        /// </remarks>
+        public async Task<ImmutableList<SpotifyTrack>> GetTracksAsync(IEnumerable<string> trackIds)
+        {
+            var l = trackIds.ToList();
+            if (l.Count > 50) throw new ArgumentOutOfRangeException(nameof(trackIds), "SpotifyClient#GetTracksAsync does not allow more than 50 IDs.");
+            if (l.Count < 1) throw new ArgumentOutOfRangeException(nameof(trackIds), "SpotifyClient#GetTracksAsync requires at least 1 ID.");
+            var data = (await RequestAsync($"tracks?ids={string.Join(",", l)}", HttpMethod.Get).ConfigureAwait(false))["tracks"];
+            return data.ToObject<IEnumerable<JObject>>().Select(a => new SpotifyTrack(a, this)).ToImmutableList();
+        }
     }
 }

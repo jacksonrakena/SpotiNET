@@ -4,10 +4,11 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace AbyssalSpotify
 {
-    public class SpotifyTrackReference : SpotifyEntity
+    public class SpotifyTrackReference : SpotifyReference<SpotifyTrack>
     {
         /// <summary>
         ///     A list of references to the artists who performed the track.
@@ -82,5 +83,13 @@ namespace AbyssalSpotify
             TrackNumber = data["track_number"].ToObject<int>();
             IsLocalTrack = data["is_local"].ToObject<bool>();
         }
+
+        /// <summary>
+        ///     Downloads the full <see cref="SpotifyTrack"/> that this <see cref="SpotifyTrackReference"/> represents.
+        /// </summary>
+        /// <returns>
+        ///     An asynchronous operation representing the <see cref="SpotifyTrack"/> that this <see cref="SpotifyTrackReference"/> represents.
+        /// </returns>
+        public override Task<SpotifyTrack> GetFullEntityAsync() => Client.GetTrackAsync(Id.Id);
     }
 }
