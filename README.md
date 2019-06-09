@@ -1,4 +1,4 @@
-<center> <h1> AbyssalSpotify </h1> </center>  
+# AbyssalSpotify
 A Spotify API wrapper for .NET Standard 2.0.   
 Issues and development tracking are managed at the [Azure DevOps board.](https://dev.azure.com/abyssal512/AbyssalSpotify)
   
