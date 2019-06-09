@@ -11,30 +11,36 @@ variables:
 
 steps:
 - task: DotNetCoreInstaller@0
+  displayName: 'Install .NET Core 2.1.300'
   inputs:
     version: '2.1.300'
 - task: NuGetToolInstaller@0
 
 - task: NuGetCommand@2
+  displayName: 'Restore packages'
   inputs:
     restoreSolution: '$(solution)'
-
-- task: NuGetCommand@2
-  displayName: 'NuGet pack'
-  inputs:
-    command: 'pack'
-    packagesToPack: '**/*.csproj'
-    versioningScheme: 'byBuildNumber'
-
-- task: NuGetCommand@2
-  inputs:
-    command: 'push'
-    packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
-    nuGetFeedType: 'external'
-    publishFeedCredentials: 'NuGet abyssal512'
 
 - task: VSBuild@1
   inputs:
     solution: '$(solution)'
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
+
+- task: NuGetCommand@2
+  displayName: 'Pack project for NuGet'
+  inputs:
+    command: 'pack'
+    packagesToPack: '**/*.csproj'
+    versioningScheme: 'byPrereleaseNumber'
+    majorVersion: '1'
+    minorVersion: '0'
+    patchVersion: '0'
+
+- task: NuGetCommand@2
+  displayName: 'Push project to NuGet'
+  inputs:
+    command: 'push'
+    packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
+    nuGetFeedType: 'external'
+    publishFeedCredentials: 'NuGet abyssal512'
