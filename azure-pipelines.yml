@@ -41,6 +41,6 @@ steps:
   displayName: 'Push project to NuGet'
   inputs:
     command: 'push'
-    packagesToPush: 'artfifacts/*.nupkg;!artifacts/*.symbols.nupkg'
+    packagesToPush: 'artifacts/*.nupkg'
     nuGetFeedType: 'external'
     publishFeedCredentials: 'NuGet abyssal512'
