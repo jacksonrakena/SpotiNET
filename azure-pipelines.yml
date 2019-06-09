@@ -14,7 +14,9 @@ steps:
   displayName: 'Install .NET Core 2.1.300'
   inputs:
     version: '2.1.300'
+
 - task: NuGetToolInstaller@0
+  displayName: 'Install NuGet'
 
 - task: NuGetCommand@2
   displayName: 'Restore packages'
@@ -32,7 +34,7 @@ steps:
   displayName: 'Pack project for NuGet'
   inputs:
     command: 'pack'
-    packagesToPack: '**/*.csproj'
+    packagesToPack: 'src/AbyssalSpotify.csproj'
     versioningScheme: 'byPrereleaseNumber'
     majorVersion: '1'
     minorVersion: '0'
