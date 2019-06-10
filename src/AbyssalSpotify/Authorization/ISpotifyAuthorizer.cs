@@ -28,5 +28,12 @@ namespace AbyssalSpotify
         /// <param name="set">The <see cref="AuthorizationSet"/> to convert.</param>
         /// <returns>An <see cref="AuthenticationHeaderValue"/> to use when authenticating requests.</returns>
         AuthenticationHeaderValue GetAuthenticationHeaderValue(AuthorizationSet set);
+
+        /// <summary>
+        ///     Handles an error that occurred while authorizing with this authorizer.
+        /// </summary>
+        /// <param name="error">The error that occurred while authorizing with this authorizer.</param>
+        /// <returns>An asynchronous operation representing the completion of this method.</returns>
+        Task HandleAuthenticationErrorAsync(AuthorizationError error);
     }
 }

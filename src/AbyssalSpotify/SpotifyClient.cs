@@ -4,8 +4,10 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Security.Authentication;
 using System.Threading.Tasks;
 
 namespace AbyssalSpotify
@@ -115,7 +117,20 @@ namespace AbyssalSpotify
             };
 
             var response = await HttpClient.SendAsync(message).ConfigureAwait(false);
-            response.EnsureSuccessStatusCode();
+            
+            if (!response.IsSuccessStatusCode)
+            {
+                if (response.StatusCode == HttpStatusCode.Unauthorized)
+                {
+                    await Authorizer.HandleAuthenticationErrorAsync(new AuthorizationError((int) response.StatusCode, JObject.Parse(await response.Content.ReadAsStringAsync().ConfigureAwait(false)))).ConfigureAwait(false);
+                    throw new InvalidOperationException("Cannot continue with request after authorization error.");
+                }
+
+                var err = JObject.Parse(await response.Content.ReadAsStringAsync().ConfigureAwait(false));
+                var errorMessage = err["error"]["message"].ToObject<string>();
+
+                throw new SpotifyException((int) response.StatusCode,  errorMessage);
+            }
 
             return JObject.Parse(await response.Content.ReadAsStringAsync().ConfigureAwait(false));
         }

@@ -21,5 +21,10 @@ namespace AbyssalSpotify
         {
             throw new NotImplementedException();
         }
+
+        public Task HandleAuthenticationErrorAsync(AuthorizationError error)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

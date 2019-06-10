@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Security.Authentication;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -97,6 +98,16 @@ namespace AbyssalSpotify
         private string EncodeBase64(string enc)
         {
             return Convert.ToBase64String(Encoding.UTF8.GetBytes(enc));
+        }
+
+        /// <summary>
+        ///     Handles an error that occurred while authorizing with this authorizer.
+        /// </summary>
+        /// <param name="error">The error that occurred while authorizing with this authorizer.</param>
+        /// <returns>An asynchronous operation representing the completion of this method.</returns>
+        public Task HandleAuthenticationErrorAsync(AuthorizationError error)
+        {
+            throw new AuthenticationException("Error occurred during authorization: " + error.Error + ": " + error.Description);
         }
     }
 }
