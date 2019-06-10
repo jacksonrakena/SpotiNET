@@ -23,19 +23,20 @@ namespace AbyssalSpotify.Tests
             //    PrintArtist(artist);
             //}
 
-            var albums = await client.GetAlbumTracksAsync("2otn74uchXYddmyj8IdGXW");
+            var albums = await client.SearchAsync("hard", SearchType.All, 2);
 
-            foreach (var item in albums.Items)
+            foreach (var item in albums.Tracks.Items)
             {
-                PrintTrackRef(item);
+                PrintTrack(item);
             }
-            Console.WriteLine("Length: " + albums.Items.Length);
-            Console.WriteLine("Got next: " + await albums.GetNextAsync());
-            Console.WriteLine("Length: " + albums.Items.Length);
 
-            foreach (var item in albums.Items)
+            Console.WriteLine("Length: " + albums.Tracks.Items.Length);
+            Console.WriteLine("Got next: " + await albums.Tracks.GetNextAsync());
+            Console.WriteLine("New length: " + albums.Tracks.Items.Length);
+
+            foreach (var item in albums.Tracks.Items)
             {
-                PrintTrackRef(item);
+                PrintTrack(item);
             }
 
             Console.ReadKey();

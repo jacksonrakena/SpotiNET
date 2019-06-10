@@ -1,23 +1,36 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System;
 
 namespace AbyssalSpotify
 {
+    /// <summary>
+    ///     Represents different entites to query.
+    /// </summary>
     [Flags]
     public enum SearchType
     {
-        [JsonProperty("album")]
+        /// <summary>
+        ///     Queries for albums.
+        /// </summary>
         Album,
 
-        [JsonProperty("artist")]
+        /// <summary>
+        ///     Queries for artists.
+        /// </summary>
         Artist,
 
-        [JsonProperty("playlist")]
+        /// <summary>
+        ///     Queries for playlists.
+        /// </summary>
         Playlist,
 
-        [JsonProperty("track")]
-        Track
+        /// <summary>
+        ///     Queries for tracks.
+        /// </summary>
+        Track,
+
+        /// <summary>
+        ///     Queries all known types.
+        /// </summary>
+        All
     }
 }

@@ -285,7 +285,7 @@ namespace AbyssalSpotify
         /// </example>
         public async Task<SpotifySearchResponse> SearchAsync(string query, SearchType searchType, int limit = 20, int offset = 0)
         {
-            var data = await RequestAsync($"search?q={query.Replace(" ", "%20")}&type={searchType.ToString().ToLower()}&limit={limit}&offset={offset}", HttpMethod.Get);
+            var data = await RequestAsync($"search?q={query.Replace(" ", "%20")}&type={(searchType == SearchType.All ? "album,artist,playlist,track" : searchType.ToString().ToLower())}&limit={limit}&offset={offset}", HttpMethod.Get);
             return new SpotifySearchResponse(data, this);
         }
     }
