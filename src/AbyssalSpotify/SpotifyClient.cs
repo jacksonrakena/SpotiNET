@@ -15,10 +15,7 @@ namespace AbyssalSpotify
     /// </summary>
     public class SpotifyClient
     {
-        /// <summary>
-        ///     The internal HTTP client to make requests with.
-        /// </summary>
-        public HttpClient HttpClient { get; }
+        internal HttpClient HttpClient { get; }
 
         /// <summary>
         ///     The authorizer that handles authorizing and maintaining authorizations with Spotify's accounts service.
