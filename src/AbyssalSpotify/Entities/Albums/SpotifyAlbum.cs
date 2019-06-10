@@ -82,7 +82,7 @@ namespace AbyssalSpotify
         /// <summary>
         ///     A paging object that contains references to the tracks in this album.
         /// </summary>
-        public ISpotifyPagingResponse<SpotifyTrackReference> Tracks { get; }
+        public SpotifyPagingResponse<SpotifyTrackReference> Tracks { get; }
 
         internal SpotifyAlbum(SpotifyClient client, JObject data) : base(client)
         {
@@ -124,7 +124,7 @@ namespace AbyssalSpotify
 
             // TODO: Track Relinking
 
-            Tracks = new SpotifyTrackReferencePagingResponse(client, data["tracks"]);
+            Tracks = new SpotifyPagingResponse<SpotifyTrackReference>((JObject) data["tracks"], (o, c) => new SpotifyTrackReference(c, o), a => (JObject) a["tracks"], client);
         }
     }
 }

@@ -217,14 +217,14 @@ namespace AbyssalSpotify
         /// <returns>
         ///     An asynchronous operaiton that will yield a paging container containing the requested tracks.
         /// </returns>
-        public async Task<ISpotifyPagingResponse<SpotifyTrackReference>> GetAlbumTracksAsync(string albumId, int limit = 20, int offset = 0)
+        public async Task<SpotifyPagingResponse<SpotifyTrackReference>> GetAlbumTracksAsync(string albumId, int limit = 20, int offset = 0)
         {
             if (limit > 50) throw new ArgumentOutOfRangeException(nameof(limit), "SpotifyClient#GetAlbumTracksAsync does not allow a limit over 50.");
             if (limit < 1) throw new ArgumentOutOfRangeException(nameof(limit), "SpotifyClient#GetAlbumTracksAsync requires that the limit be over 1.");
 
             var data = await RequestAsync($"albums/{albumId}/tracks?limit={limit}&offset={offset}", HttpMethod.Get).ConfigureAwait(false);
 
-            return new SpotifyTrackReferencePagingResponse(this, data);
+            return new SpotifyPagingResponse<SpotifyTrackReference>(data, (a, c) => new SpotifyTrackReference(this, a), d => d, this);
         }
 
         /// <summary>

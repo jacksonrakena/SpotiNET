@@ -23,11 +23,20 @@ namespace AbyssalSpotify.Tests
             //    PrintArtist(artist);
             //}
 
-            var albums = await client.SearchAsync("Dreaming", SearchType.Album);
+            var albums = await client.GetAlbumTracksAsync("2otn74uchXYddmyj8IdGXW");
 
-            Console.WriteLine("Tracks: " + albums.Tracks.Items.Length);
-            Console.WriteLine("Albums: " + albums.Albums.Items.Length);
-            Console.WriteLine("Artists: " + albums.Artists.Items.Length);
+            foreach (var item in albums.Items)
+            {
+                PrintTrackRef(item);
+            }
+            Console.WriteLine("Length: " + albums.Items.Length);
+            Console.WriteLine("Got next: " + await albums.GetNextAsync());
+            Console.WriteLine("Length: " + albums.Items.Length);
+
+            foreach (var item in albums.Items)
+            {
+                PrintTrackRef(item);
+            }
 
             Console.ReadKey();
         }
@@ -63,8 +72,7 @@ namespace AbyssalSpotify.Tests
             Console.WriteLine("Popularity %: " + album.Popularity);
             Console.WriteLine("Label: " + album.Label);
             Console.WriteLine("Tracks: " + string.Join(", ", album.Tracks.Items.Select(a => a.Name)));
-            Console.WriteLine("Tracks Limit: " + album.Tracks.Limit);
-            Console.WriteLine("Tracks Total: " + album.Tracks.Total);
+            Console.WriteLine("Tracks Count: " + album.Tracks.Items.Length);
             Console.WriteLine("Artists: " + string.Join(", ", album.Artists.Select(a => a.Name)));
             Console.WriteLine("Release Date: " + album.ReleaseDate.ToString());
             Console.WriteLine("Type: " + album.Type.ToString());
