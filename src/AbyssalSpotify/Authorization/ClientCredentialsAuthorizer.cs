@@ -15,7 +15,7 @@ namespace AbyssalSpotify
     ///     Allows the client to access Spotify resources like tracks, artists, and albums.
     ///     Does not allow the client to access and user information.
     /// </summary>
-    public class ClientCredentialsAuthorizer : ISpotifyAuthorizer
+    internal class ClientCredentialsAuthorizer : ISpotifyAuthorizer
     {
         private static Uri ClientCredentialsAuthorizationEndpoint => new Uri("https://accounts.spotify.com/api/token");
 
@@ -24,75 +24,62 @@ namespace AbyssalSpotify
             {"grant_type", "client_credentials" }
         });
 
-        /// <summary>
-        ///     Represents the combined client credentials to use when authorizing. The format is "[client id]:[client secret]".
-        /// </summary>
         public string CombinedClientCredentials { get; }
 
-        /// <summary>
-        ///     Creates a new <see cref="ClientCredentialsAuthorizer"/> using a client ID and a client secret.
-        /// </summary>
-        /// <param name="clientId">The client ID to use.</param>
-        /// <param name="clientSecret">The client secret to use.</param>
-        public ClientCredentialsAuthorizer(string clientId, string clientSecret)
+        private AuthorizationSet Authorization { get; set; }
+
+        internal ClientCredentialsAuthorizer(string clientId, string clientSecret)
         {
             CombinedClientCredentials = $"{clientId}:{clientSecret}";
         }
 
-        /// <summary>
-        ///     Creates a new <see cref="ClientCredentialsAuthorizer"/> using a combined client ID and client secret in format "[client id]:[client secret]".
-        /// </summary>
-        /// <param name="combinedClientCredentials"></param>
-        public ClientCredentialsAuthorizer(string combinedClientCredentials)
+        internal ClientCredentialsAuthorizer(string combinedClientCredentials)
         {
             CombinedClientCredentials = combinedClientCredentials;
         }
 
-        /// <summary>
-        ///     Attempts to authorize with Spotify using the stored client credentials.
-        /// </summary>
-        /// <param name="client">The <see cref="SpotifyClient"/> that holds the <see cref="HttpClient"/> to use.</param>
-        /// <returns>An asynchronous operation that will yield an <see cref="AuthorizationSet"/> to use for future requests.</returns>
-        public async Task<AuthorizationSet> AuthorizeAsync(SpotifyClient client)
+        public async Task<bool> EnsureAuthorizedAsync(SpotifyClient client)
         {
-            var http = client.HttpClient;
-
-            var request = new HttpRequestMessage
+            if (Authorization == null || string.IsNullOrEmpty(Authorization.AccessToken)
+                || Authorization.ExpirationTime.ToUnixTimeSeconds() < DateTimeOffset.Now.ToUnixTimeSeconds())
             {
-                RequestUri = ClientCredentialsAuthorizationEndpoint,
-                Content = ClientCredentialsContent,
-                Method = HttpMethod.Post
-            };
+                var http = client.HttpClient;
 
-            request.Headers.Authorization = new AuthenticationHeaderValue(
-                "Basic", EncodeBase64(CombinedClientCredentials));
+                var request = new HttpRequestMessage
+                {
+                    RequestUri = ClientCredentialsAuthorizationEndpoint,
+                    Content = ClientCredentialsContent,
+                    Method = HttpMethod.Post
+                };
 
-            var response = await http.SendAsync(request, HttpCompletionOption.ResponseContentRead).ConfigureAwait(false);
+                request.Headers.Authorization = new AuthenticationHeaderValue(
+                    "Basic", EncodeBase64(CombinedClientCredentials));
 
-            response.EnsureSuccessStatusCode();
+                var response = await http.SendAsync(request, HttpCompletionOption.ResponseContentRead).ConfigureAwait(false);
 
-            var responseString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                response.EnsureSuccessStatusCode();
 
-            var authorizationResult = new AuthorizationSet();
-            var jsonData = JObject.Parse(responseString);
+                var responseString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 
-            authorizationResult.AccessToken = jsonData["access_token"].ToObject<string>();
-            authorizationResult.AuthorizerType = AuthorizerType.ClientCredentials;
-            authorizationResult.ExpirationTime = DateTimeOffset.Now.AddSeconds(jsonData["expires_in"].ToObject<int>());
-            authorizationResult.Authorizer = this;
+                var jsonData = JObject.Parse(responseString);
 
-            return authorizationResult;
+                Authorization = new AuthorizationSet
+                {
+                    AccessToken = jsonData["access_token"].ToObject<string>(),
+                    ExpirationTime = DateTimeOffset.Now.AddSeconds(jsonData["expires_in"].ToObject<int>())
+                };
+
+                UpdateClientAuthorization(client);
+
+                return true;
+            }
+
+            return false;
         }
 
-        /// <summary>
-        ///     Builds an <see cref="AuthenticationHeaderValue"/> from an <see cref="AuthorizationSet"/> that has been created
-        ///     with a <see cref="ClientCredentialsAuthorizer"/>.
-        /// </summary>
-        /// <param name="set"></param>
-        /// <returns>An <see cref="AuthenticationHeaderValue"/> that can be used with Spotify requests.</returns>
-        public AuthenticationHeaderValue GetAuthenticationHeaderValue(AuthorizationSet set)
+        private void UpdateClientAuthorization(SpotifyClient client)
         {
-            return new AuthenticationHeaderValue("Bearer", set.AccessToken);
+            client.HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Authorization.AccessToken);
         }
 
         private string EncodeBase64(string enc)
@@ -108,6 +95,15 @@ namespace AbyssalSpotify
         public Task HandleAuthenticationErrorAsync(AuthorizationError error)
         {
             throw new AuthenticationException("Error occurred during authorization: " + error.Error + ": " + error.Description);
+        }
+
+        private class AuthorizationSet
+        {
+            public string RefreshToken { get; set; }
+
+            public string AccessToken { get; set; }
+
+            public DateTimeOffset ExpirationTime { get; set; }
         }
     }
 }

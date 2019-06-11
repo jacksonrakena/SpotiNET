@@ -19,23 +19,10 @@ namespace AbyssalSpotify
     {
         internal HttpClient HttpClient { get; }
 
-        /// <summary>
-        ///     The authorizer that handles authorizing and maintaining authorizations with Spotify's accounts service.
-        /// </summary>
-        public ISpotifyAuthorizer Authorizer { get; }
+        internal ISpotifyAuthorizer Authorizer { get; }
 
-        /// <summary>
-        ///     The current authorization data, as supplied by <see cref="Authorizer"/>. Will be <c>null</c> if no authorization has occurred yet.
-        /// </summary>
-        public AuthorizationSet AuthorizationSet { get; private set; }
-
-        /// <summary>
-        ///     Creates a new <see cref="SpotifyClient"/> using the provided authorizer.
-        /// </summary>
-        /// <param name="authorizer"></param>
-        public SpotifyClient(ISpotifyAuthorizer authorizer)
+        internal SpotifyClient(ISpotifyAuthorizer authorizer)
         {
-            if (authorizer is AuthorizationCodeAuthorizer) throw new NotImplementedException("AuthorizationCodeAuthorizer is not currently implemented.");
             HttpClient = new HttpClient();
             Authorizer = authorizer;
         }
@@ -68,38 +55,9 @@ namespace AbyssalSpotify
             return new SpotifyClient(new ClientCredentialsAuthorizer(combinedClientCredentials));
         }
 
-        /// <summary>
-        ///     Forces an authorization or reauthorization, regardless of the current client's authorization state.
-        ///     It is recommended to use <see cref="EnsureAuthorizedAsync"/> instead.
-        /// </summary>
-        /// <returns>An asynchronous operation that will yield the authorization result.</returns>
-        public async Task<AuthorizationSet> AuthorizeAsync()
+        internal Task<bool> EnsureAuthorizedAsync()
         {
-            AuthorizationSet = await Authorizer.AuthorizeAsync(this).ConfigureAwait(false);
-            HttpClient.DefaultRequestHeaders.Authorization = Authorizer.GetAuthenticationHeaderValue(AuthorizationSet);
-
-            return AuthorizationSet;
-        }
-
-        /// <summary>
-        ///     Ensures that the Spotify client is properly authorized.
-        ///     If the client is already authorized, nothing will happen and <c>false</c> will be returned.
-        ///     If the client is not authorized, the authorization flow will be completed and <c>true</c> will be returned.
-        /// </summary>
-        /// <remarks>
-        ///     Consumers of <see cref="SpotifyClient"/> should not need to run this method, as it is run as part of all authorized
-        ///     requests.
-        /// </remarks>
-        /// <returns>An asynchronous operation that will yield a boolean indicating whether the client attempted to authorize.</returns>
-        public async Task<bool> EnsureAuthorizedAsync()
-        {
-            if (AuthorizationSet == null || string.IsNullOrEmpty(AuthorizationSet.AccessToken)
-                || AuthorizationSet.ExpirationTime.ToUnixTimeSeconds() < DateTimeOffset.Now.ToUnixTimeSeconds())
-            {
-                await AuthorizeAsync().ConfigureAwait(false);
-                return true;
-            }
-            return false;
+            return Authorizer.EnsureAuthorizedAsync(this);
         }
 
         internal async Task<JObject> RequestAsync(string endpoint, HttpMethod method)
