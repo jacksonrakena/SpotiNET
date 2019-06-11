@@ -2,6 +2,7 @@
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Security.Authentication;
@@ -57,11 +58,17 @@ namespace AbyssalSpotify
 
                 var response = await http.SendAsync(request, HttpCompletionOption.ResponseContentRead).ConfigureAwait(false);
 
-                response.EnsureSuccessStatusCode();
-
                 var responseString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 
                 var jsonData = JObject.Parse(responseString);
+
+                if (response.StatusCode == HttpStatusCode.Unauthorized)
+                {
+                    await HandleAuthenticationErrorAsync(new AuthorizationError((int) response.StatusCode, jsonData)).ConfigureAwait(false);
+                    throw new InvalidOperationException("Cannot continue with request after authorization error.");
+                }
+
+                response.EnsureSuccessStatusCode();
 
                 Authorization = new AuthorizationSet
                 {
