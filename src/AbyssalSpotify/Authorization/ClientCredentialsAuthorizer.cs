@@ -99,8 +99,6 @@ namespace AbyssalSpotify
 
         private class AuthorizationSet
         {
-            public string RefreshToken { get; set; }
-
             public string AccessToken { get; set; }
 
             public DateTimeOffset ExpirationTime { get; set; }
