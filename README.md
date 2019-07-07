@@ -10,6 +10,9 @@ Issues and development tracking are managed at the [Azure DevOps board.](https:/
 ## Usage
 Documentation is a work-in-progress. You can see `AbyssalSpotify.Tests\Program.cs` for a brief example, 
 but XML documentation is included with all public-facing classes and methods. You can also generate the documentation using DocFX and browse it locally.
+
+## Examples
+AbyssalSpotify is used extensively in some of my other projects, namely [Abyss](https://github.com/abyssal512/Abyss), a Discord chatbot, under [SpotifyModule](https://github.com/abyssal512/Abyss/blob/master/Modules/SpotifyModule.cs), and [Program](https://github.com/abyssal512/Abyss/blob/master/Program.cs).
   
 ## Copyright  
 Copyright (c) 2019 abyssal512.  
