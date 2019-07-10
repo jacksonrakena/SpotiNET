@@ -1,3 +1,4 @@
+[![Discord](https://img.shields.io/discord/598437365891203072.svg?style=plastic)](https://discord.gg/RsRps9M)
 # AbyssalSpotify
 A Spotify API wrapper for .NET Standard 2.0.  
   
@@ -8,7 +9,7 @@ A Spotify API wrapper for .NET Standard 2.0.
 
 ## Usage
 Documentation is a work-in-progress. You can see `AbyssalSpotify.Tests\Program.cs` for a brief example, 
-but XML documentation is included with all public-facing classes and methods. You can also generate the documentation using DocFX and browse it locally.
+but XML documentation is included with all public-facing classes and methods. You can also generate the documentation using DocFX and browse it locally. If you have any issues, feel free to open a GitHub issue, or hop in my Discord guild: [https://discord.gg/RsRps9M](https://discord.gg/RsRps9M).
 
 ## Feature Roadmap
 * [x] Authentication
