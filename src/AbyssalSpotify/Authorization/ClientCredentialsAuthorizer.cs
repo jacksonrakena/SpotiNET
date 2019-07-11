@@ -78,6 +78,9 @@ namespace AbyssalSpotify
 
                 UpdateClientAuthorization(client);
 
+                request.Dispose();
+                response.Dispose();
+
                 return true;
             }
 

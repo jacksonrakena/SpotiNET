@@ -28,12 +28,7 @@ namespace AbyssalSpotify
         /// </summary>
         public string Name { get; }
 
-        /// <summary>
-        ///     Downloads the full <see cref="SpotifyArtist"/> that this <see cref="SpotifyArtistReference"/> represents.
-        /// </summary>
-        /// <returns>
-        ///     An asynchronous operation representing the <see cref="SpotifyArtist"/> that this <see cref="SpotifyArtistReference"/> represents.
-        /// </returns>
+        /// <inheritdoc />
         public override Task<SpotifyArtist> GetFullEntityAsync() => Client.GetArtistAsync(Id.Id);
 
         internal SpotifyArtistReference(SpotifyClient client, JObject data) : base(client)

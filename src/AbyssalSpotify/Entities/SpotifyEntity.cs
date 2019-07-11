@@ -4,6 +4,9 @@ using System.Text;
 
 namespace AbyssalSpotify
 {
+    /// <summary>
+    ///     Represents a generic Spotify entity.
+    /// </summary>
     public abstract class SpotifyEntity
     {
         internal SpotifyClient Client;

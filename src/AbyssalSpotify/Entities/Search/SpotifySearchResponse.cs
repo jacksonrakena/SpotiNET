@@ -26,7 +26,7 @@ namespace AbyssalSpotify
         /// </summary>
         public SpotifyPagingResponse<SpotifyArtist> Artists { get; }
 
-        public SpotifySearchResponse(JObject data, SpotifyClient client) : base(client)
+        internal SpotifySearchResponse(JObject data, SpotifyClient client) : base(client)
         {
             var artists = data["artists"];
             if (artists != null)

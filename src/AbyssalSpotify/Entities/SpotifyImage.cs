@@ -25,6 +25,13 @@ namespace AbyssalSpotify
         /// </summary>
         public string Url { get; }
 
+        /// <summary>
+        ///     Creates a new <see cref="SpotifyImage"/>. This constructor should not be used
+        ///     by consumers of this API.
+        /// </summary>
+        /// <param name="height">The height of the image.</param>
+        /// <param name="width">The width of the image.</param>
+        /// <param name="url">The URL of the image.</param>
         public SpotifyImage(int? height, int? width, string url)
         {
             Height = height;
@@ -32,6 +39,10 @@ namespace AbyssalSpotify
             Url = url;
         }
 
+        /// <summary>
+        ///     Returns the URL of this image.
+        /// </summary>
+        /// <returns>The URL of this image.</returns>
         public override string ToString() => Url;
     }
 }

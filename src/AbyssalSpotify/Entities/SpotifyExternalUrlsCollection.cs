@@ -16,18 +16,25 @@ namespace AbyssalSpotify
     {
         private readonly IDictionary<string, string> _data;
 
+        /// <inheritdoc />
         public string this[string key] => _data[key];
 
+        /// <inheritdoc />
         public IEnumerable<string> Keys => _data.Keys;
 
+        /// <inheritdoc />
         public IEnumerable<string> Values => _data.Values;
 
+        /// <inheritdoc />
         public int Count => _data.Count;
 
+        /// <inheritdoc />
         public bool ContainsKey(string key) => _data.ContainsKey(key);
 
+        /// <inheritdoc />
         public IEnumerator<KeyValuePair<string, string>> GetEnumerator() => _data.GetEnumerator();
 
+        /// <inheritdoc />
         public bool TryGetValue(string key, out string value) => _data.TryGetValue(key, out value);
 
         IEnumerator IEnumerable.GetEnumerator() => _data.GetEnumerator();

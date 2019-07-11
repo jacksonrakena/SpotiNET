@@ -8,6 +8,10 @@ using System.Threading.Tasks;
 
 namespace AbyssalSpotify
 {
+    /// <summary>
+    ///     A light data class containing some album data, sometimes returned by the Spotify API
+    ///     in lieu of a full <see cref="SpotifyTrack"/> object.
+    /// </summary>
     public class SpotifyTrackReference : SpotifyReference<SpotifyTrack>
     {
         /// <summary>
@@ -84,12 +88,7 @@ namespace AbyssalSpotify
             IsLocalTrack = data["is_local"].ToObject<bool>();
         }
 
-        /// <summary>
-        ///     Downloads the full <see cref="SpotifyTrack"/> that this <see cref="SpotifyTrackReference"/> represents.
-        /// </summary>
-        /// <returns>
-        ///     An asynchronous operation representing the <see cref="SpotifyTrack"/> that this <see cref="SpotifyTrackReference"/> represents.
-        /// </returns>
+        /// <inheritdoc />
         public override Task<SpotifyTrack> GetFullEntityAsync() => Client.GetTrackAsync(Id.Id);
     }
 }

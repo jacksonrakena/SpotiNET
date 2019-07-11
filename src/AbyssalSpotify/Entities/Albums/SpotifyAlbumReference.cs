@@ -91,6 +91,7 @@ namespace AbyssalSpotify
             }
         }
 
+        /// <inheritdoc />
         public override Task<SpotifyAlbum> GetFullEntityAsync() => Client.GetAlbumAsync(Id.Id);
     }
 }

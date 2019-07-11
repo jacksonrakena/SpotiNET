@@ -53,6 +53,10 @@ namespace AbyssalSpotify
             Url = $"http://open.spotify.com/{CategoryId}/{Id}";
         }
 
+        /// <summary>
+        ///     Returns the absolute URI of this resource.
+        /// </summary>
+        /// <returns>The absolute URI of this resource.</returns>
         public override string ToString() => Uri;
     }
 }
