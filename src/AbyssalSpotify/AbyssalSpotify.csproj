@@ -11,6 +11,7 @@
     <PackageProjectUrl>https://github.com/abyssal512/AbyssalSpotify</PackageProjectUrl>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/abyssal512/AbyssalSpotify</RepositoryUrl>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
