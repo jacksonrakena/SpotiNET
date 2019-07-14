@@ -90,7 +90,11 @@ namespace AbyssalSpotify
                 throw new SpotifyException((int) response.StatusCode,  errorMessage);
             }
 
-            return JObject.Parse(await response.Content.ReadAsStringAsync().ConfigureAwait(false));
+            var content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+            response.Dispose();
+            message.Dispose();
+
+            return JObject.Parse(content);
         }
 
         /// <summary>
