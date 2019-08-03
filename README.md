@@ -44,7 +44,7 @@ but XML documentation is included with all public-facing classes and methods. Yo
 
 
 ## Examples
-AbyssalSpotify is used extensively in some of my other projects, namely [Abyss](https://github.com/abyssal512/Abyss), a Discord chatbot, under [SpotifyModule](https://github.com/abyssal512/Abyss/blob/master/Modules/SpotifyModule.cs), and [Program](https://github.com/abyssal512/Abyss/blob/master/Program.cs).
+AbyssalSpotify is used extensively in some of my other projects, namely [Abyss](https://github.com/abyssal512/Abyss), a Discord bot platform. It is utilized under [SpotifyModule](https://github.com/abyssal512/Abyss/blob/master/src/Abyss.Core/Modules/SpotifyModule.cs), and initialized in the [console host](https://github.com/abyssal512/Abyss/blob/master/src/Abyss.Console/Program.cs#L72).
   
 ## Copyright  
 Copyright (c) 2019 abyssal512.  
