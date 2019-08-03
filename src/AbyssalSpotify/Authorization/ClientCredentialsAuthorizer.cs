@@ -20,11 +20,6 @@ namespace AbyssalSpotify
     {
         private static Uri ClientCredentialsAuthorizationEndpoint => new Uri("https://accounts.spotify.com/api/token");
 
-        private readonly static FormUrlEncodedContent ClientCredentialsContent = new FormUrlEncodedContent(new Dictionary<string, string>
-        {
-            {"grant_type", "client_credentials" }
-        });
-
         public string CombinedClientCredentials { get; }
 
         private AuthorizationSet Authorization { get; set; }
@@ -49,7 +44,10 @@ namespace AbyssalSpotify
                 var request = new HttpRequestMessage
                 {
                     RequestUri = ClientCredentialsAuthorizationEndpoint,
-                    Content = ClientCredentialsContent,
+                    Content = new FormUrlEncodedContent(new Dictionary<string, string>
+                    {
+                        {"grant_type", "client_credentials" }
+                    }),
                     Method = HttpMethod.Post
                 };
 
