@@ -24,7 +24,7 @@ namespace AbyssalSpotify.Tests
 
             Assert.IsNotNull(artist);
             Assert.AreEqual("Hey Violet", artist.Name);
-            Assert.AreEqual("4JNfz6aO9ZFz0gp5GY88am", artist.Id.Id);
+            Assert.AreEqual("spotify:artist:4JNfz6aO9ZFz0gp5GY88am", artist.Uri);
             Assert.IsNotNull(artist.Images);
             Assert.IsNotNull(artist.AssociatedGenres);
         }

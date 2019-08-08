@@ -9,11 +9,5 @@ namespace AbyssalSpotify
     /// </summary>
     public abstract class SpotifyEntity
     {
-        internal SpotifyClient Client;
-
-        internal SpotifyEntity(SpotifyClient client)
-        {
-            Client = client;
-        }
     }
 }

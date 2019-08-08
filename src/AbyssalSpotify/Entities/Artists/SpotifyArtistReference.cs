@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace AbyssalSpotify
@@ -16,26 +17,22 @@ namespace AbyssalSpotify
         ///     A list of all known external URLs for this artist, like Twitter, Facebook, etc.
         ///     This dictionary allows custom indexing for unknown properties.
         /// </summary>
+        [JsonPropertyName("external_urls")]
         public SpotifyExternalUrlsCollection ExternalUrls { get; }
 
         /// <summary>
         ///     The Spotify ID data for this artist.
         /// </summary>
+        [JsonPropertyName("uri")]
         public SpotifyUri Id { get; }
 
         /// <summary>
         ///     The name of the artist.
         /// </summary>
+        [JsonPropertyName("name")]
         public string Name { get; }
 
         /// <inheritdoc />
-        public override Task<SpotifyArtist> GetFullEntityAsync() => Client.GetArtistAsync(Id.Id);
-
-        internal SpotifyArtistReference(SpotifyClient client, JObject data) : base(client)
-        {
-            ExternalUrls = new SpotifyExternalUrlsCollection(data["external_urls"].ToObject<IDictionary<string, string>>());
-            Id = new SpotifyUri(data["uri"].ToObject<string>());
-            Name = data["name"].ToObject<string>();
-        }
+        public override Task<SpotifyArtist> GetFullEntityAsync(SpotifyClient client) => client.GetArtistAsync(Id.Id);
     }
 }

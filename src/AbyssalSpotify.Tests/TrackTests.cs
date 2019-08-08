@@ -40,7 +40,7 @@ namespace AbyssalSpotify.Tests
             Assert.IsTrue(track.HasExplicitLyrics);
         }
 
-        [TestMethod]
+        /*[TestMethod]
         public async Task Test_BatchTracks_Fetch()
         {
             var tracks = await _client.GetTracksAsync(new string[] { "2WDffjRjjtxHcHCHkLpB5p", "20PISOo4VbLz4yFH78Zv5R" });
@@ -80,9 +80,9 @@ namespace AbyssalSpotify.Tests
             Assert.AreEqual(TimeSpan.FromSeconds(197.506), track1.Duration);
 
             Assert.IsFalse(track1.HasExplicitLyrics);
-        }
+        }*/
 
-        [DataTestMethod]
+        /*[DataTestMethod]
         [DataRow(20, 0, DisplayName = "Default (Limit=20, Offset=0)")] // default
         [DataRow(40, 0, DisplayName = "Limit=40, Offset=0")]
         [DataRow(12, 0, DisplayName = "Limit=12, Offset=0")]
@@ -115,9 +115,9 @@ namespace AbyssalSpotify.Tests
                 var track = albumTracks.Items[i];
                 Assert.AreEqual(trackName, track.Name);
             }
-        }
+        }*/
 
-        [TestMethod]
+        /*[TestMethod]
         public Task Test_AlbumTracks_LimitOver50_Throws()
         {
             return Assert.ThrowsExceptionAsync<ArgumentOutOfRangeException>(() => _client.GetAlbumTracksAsync("6ZZbMKUghvClcRLF5pZT6Y", 51));
@@ -127,6 +127,6 @@ namespace AbyssalSpotify.Tests
         public Task Test_AlbumTracks_LimitUnder1_Throws()
         {
             return Assert.ThrowsExceptionAsync<ArgumentOutOfRangeException>(() => _client.GetAlbumTracksAsync("6ZZbMKUghvClcRLF5pZT6Y", 0));
-        }
+        }*/
     }
 }

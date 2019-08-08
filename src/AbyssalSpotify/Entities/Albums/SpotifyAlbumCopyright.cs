@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Text;
+using System.Text.Json.Serialization;
 
 namespace AbyssalSpotify
 {
@@ -14,11 +15,13 @@ namespace AbyssalSpotify
         /// <summary>
         ///     The type of this copyright.
         /// </summary>
+        [JsonPropertyName("type")]
         public AlbumCopyrightType CopyrightType { get; }
 
         /// <summary>
         ///     The text of the copyright.
         /// </summary>
+        [JsonPropertyName("text")]
         public string CopyrightText { get; }
 
         internal SpotifyAlbumCopyright(string text, AlbumCopyrightType act)
@@ -36,11 +39,13 @@ namespace AbyssalSpotify
         /// <summary>
         ///     The standard (release) copyright.
         /// </summary>
+        [EnumMember(Value = "C")]
         Copyright,
 
         /// <summary>
         ///     The performance (sound recording) copyright.
         /// </summary>
+        [EnumMember(Value = "P")]
         PerformanceCopyright
     }
 }

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.Json.Serialization;
 
 namespace AbyssalSpotify
 {
@@ -13,31 +14,20 @@ namespace AbyssalSpotify
         /// <summary>
         ///     The image height in pixels. Can be <c>null</c> if unknown.
         /// </summary>
+        [JsonPropertyName("height")]
         public int? Height { get; }
 
         /// <summary>
         ///     The image width in pixels. Can be <c>null</c> if unknown.
         /// </summary>
+        [JsonPropertyName("width")]
         public int? Width { get; }
 
         /// <summary>
         ///     The source URL of the image.
         /// </summary>
+        [JsonPropertyName("url")]
         public string Url { get; }
-
-        /// <summary>
-        ///     Creates a new <see cref="SpotifyImage"/>. This constructor should not be used
-        ///     by consumers of this API.
-        /// </summary>
-        /// <param name="height">The height of the image.</param>
-        /// <param name="width">The width of the image.</param>
-        /// <param name="url">The URL of the image.</param>
-        public SpotifyImage(int? height, int? width, string url)
-        {
-            Height = height;
-            Width = width;
-            Url = url;
-        }
 
         /// <summary>
         ///     Returns the URL of this image.

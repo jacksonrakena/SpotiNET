@@ -41,7 +41,7 @@ namespace AbyssalSpotify
         /// </summary>
         public string Url { get; }
 
-        internal SpotifyUri(string uri)
+        public SpotifyUri(string uri)
         {
             Uri = uri;
             var uriParts = Uri.Split(':');

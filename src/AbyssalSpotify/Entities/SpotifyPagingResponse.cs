@@ -57,7 +57,7 @@ namespace AbyssalSpotify
         ///     An asynchronous operation representing whether the next page was actually advanced to. This can sometimes
         ///     be false if there is no next page, or this pager is empty and represents no request.
         /// </returns>
-        public async Task<bool> GetNextAsync()
+        /*public async Task<bool> GetNextAsync()
         {
             if (_isEmpty || nextUrl == null) return false;
             var response = await _client.InternalRequestAsync(new Uri(nextUrl), HttpMethod.Get).ConfigureAwait(false);
@@ -66,7 +66,7 @@ namespace AbyssalSpotify
             if (data == null) return false;
             UpdateData(data);
             return true;
-        }
+        }*/
 
         /// <summary>
         ///     Goes back to the previous page in the query or request, and clears the current page.
@@ -75,7 +75,7 @@ namespace AbyssalSpotify
         ///     An asynchronous operation representing whether the preivous page was actually went back to. This can sometimes
         ///     be false if there is no previous page, or this pager is empty and represents no request.
         /// </returns>
-        public async Task<bool> GetPreviousAsync()
+        /*public async Task<bool> GetPreviousAsync()
         {
             if (_isEmpty || previousUrl == null) return false;
             var response = await _client.InternalRequestAsync(new Uri(previousUrl), HttpMethod.Get).ConfigureAwait(false);
@@ -84,6 +84,6 @@ namespace AbyssalSpotify
             if (data == null) return false;
             UpdateData(data);
             return true;
-        }
+        }*/
     }
 }
