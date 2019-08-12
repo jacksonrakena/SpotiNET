@@ -49,11 +49,6 @@ AbyssalSpotify is used extensively in some of my other projects, namely [Abyss](
 ## Copyright  
 Copyright (c) 2019 abyssal512.  
 Spotify application and API is Copyright (c) 2019 Spotify Technology S.A.   
-All media and content belongs to their respective owners.
-
-
-## License
-AbyssalSpotify is licensed under the MIT License. Copyright (c) 2019 abyssal512.  
-Spotify, the Spotify service, the Spotify client, and the Spotify logo are copyrighted materials of Spotify Technologies A.B.  
+All media and content belongs to their respective owners.  
   
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fabyssal512%2FAbyssalSpotify.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fabyssal512%2FAbyssalSpotify?ref=badge_large)
