@@ -51,4 +51,4 @@ Copyright (c) 2019 abyssal512.
 Spotify application and API is Copyright (c) 2019 Spotify Technology S.A.   
 All media and content belongs to their respective owners.  
   
-[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fabyssal%2FAbyssalSpotify.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fabyssal%2FAbyssalSpotify?ref=badge_large)
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fabyssal512%2FAbyssalSpotify.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fabyssal512%2FAbyssalSpotify?ref=badge_large)
