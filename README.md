@@ -1,6 +1,5 @@
-[![Discord](https://img.shields.io/discord/598437365891203072.svg?style=plastic)](https://discord.gg/RsRps9M)
 # AbyssalSpotify
-A Spotify API wrapper for .NET Standard 2.0 (written in C#), originally developed as a replacement for [JohnnyCrazy's SpotifyAPI-NET](https://github.com/JohnnyCrazy/SpotifyAPI-NET) for usage in [Abyss](http://github.com/abyssal/Abyss). 
+A Spotify API wrapper for .NET Standard 2.1 (written in C#), originally developed as a replacement for [JohnnyCrazy's SpotifyAPI-NET](https://github.com/JohnnyCrazy/SpotifyAPI-NET) for usage in [Abyss](http://github.com/abyssal/Abyss). 
   
 ## Build Status
 | Pipeline status | Latest stable | Latest pre-release |
@@ -44,11 +43,9 @@ but XML documentation is included with all public-facing classes and methods. Yo
 
 
 ## Examples
-AbyssalSpotify is used extensively in some of my other projects, namely [Abyss](https://github.com/abyssal/Abyss), a Discord bot platform. It is utilized under [SpotifyModule](https://github.com/abyssal/Abyss/blob/master/src/Abyss.Core/Modules/SpotifyModule.cs), and initialized in the [console host](https://github.com/abyssal/Abyss/blob/master/src/Abyss.Console/Program.cs#L72).
+AbyssalSpotify is used extensively in some of my other projects, namely [Abyss](https://github.com/abyssal/Abyss), a Discord bot.
   
 ## Copyright  
 Copyright (c) 2019 Abyssal.  
 Spotify application and API is Copyright (c) 2019 Spotify Technology S.A.   
 All media and content belongs to their respective owners.  
-  
-[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fabyssal512%2FAbyssalSpotify.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fabyssal512%2FAbyssalSpotify?ref=badge_large)
