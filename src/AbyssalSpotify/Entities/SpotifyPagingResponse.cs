@@ -19,19 +19,20 @@ namespace AbyssalSpotify
         /// </summary>
         public ImmutableArray<T> Items { get; private set; }
 
-        private string nextUrl;
-        private string previousUrl;
-        private readonly Func<JObject, SpotifyClient, T> _objectBuilder;
-        private readonly Func<JObject, JObject> _dataAccessor;
-        private readonly SpotifyClient _client;
-        private readonly bool _isEmpty;
+        private string? nextUrl;
+        private string? previousUrl;
+        private readonly Func<JObject, SpotifyClient, T>? _objectBuilder;
+        private readonly Func<JObject, JObject>? _dataAccessor;
+        private readonly SpotifyClient? _client;
+        private bool IsEmpty => _client == null || _dataAccessor == null || _objectBuilder == null;
 
         private void UpdateData(JObject data)
         {
+            if (IsEmpty) return;
             nextUrl = data["next"].ToObject<string>();
             previousUrl = data["previous"].ToObject<string>();
 
-            Items = data["items"].ToObject<IEnumerable<JObject>>().Select(a => _objectBuilder(a, _client)).ToImmutableArray();
+            Items = data["items"].ToObject<IEnumerable<JObject>>().Select(a => _objectBuilder!(a, _client!)).ToImmutableArray();
         }
 
         internal SpotifyPagingResponse(JObject baseData, Func<JObject, SpotifyClient, T> objectBuilder, Func<JObject, JObject> dataAccessor, SpotifyClient client)
@@ -39,14 +40,12 @@ namespace AbyssalSpotify
             _objectBuilder = objectBuilder;
             _dataAccessor = dataAccessor;
             _client = client;
-            _isEmpty = false;
 
             UpdateData(baseData);
         }
 
         internal SpotifyPagingResponse()
         {
-            _isEmpty = true;
         }
 
         // TODO: int limit
@@ -59,10 +58,10 @@ namespace AbyssalSpotify
         /// </returns>
         public async Task<bool> GetNextAsync()
         {
-            if (_isEmpty || nextUrl == null) return false;
-            var response = await _client.InternalRequestAsync(new Uri(nextUrl), HttpMethod.Get).ConfigureAwait(false);
+            if (IsEmpty || nextUrl == null) return false;
+            var response = await _client!.InternalRequestAsync(new Uri(nextUrl), HttpMethod.Get).ConfigureAwait(false);
             if (response == null) return false;
-            var data = _dataAccessor(response);
+            var data = _dataAccessor!(response);
             if (data == null) return false;
             UpdateData(data);
             return true;
@@ -77,10 +76,10 @@ namespace AbyssalSpotify
         /// </returns>
         public async Task<bool> GetPreviousAsync()
         {
-            if (_isEmpty || previousUrl == null) return false;
-            var response = await _client.InternalRequestAsync(new Uri(previousUrl), HttpMethod.Get).ConfigureAwait(false);
+            if (IsEmpty || previousUrl == null) return false;
+            var response = await _client!.InternalRequestAsync(new Uri(previousUrl), HttpMethod.Get).ConfigureAwait(false);
             if (response == null) return false;
-            var data = _dataAccessor(response);
+            var data = _dataAccessor!(response);
             if (data == null) return false;
             UpdateData(data);
             return true;

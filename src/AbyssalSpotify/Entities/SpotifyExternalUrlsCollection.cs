@@ -47,21 +47,21 @@ namespace AbyssalSpotify
         /// <summary>
         ///     The Wikipedia link. Will be <c>null</c> if unknown.
         /// </summary>
-        public string Wikipedia => TryGetValue("wikipedia", out string d) ? d : null;
+        public string? Wikipedia => TryGetValue("wikipedia", out string d) ? d : null;
 
         /// <summary>
         ///     The Facebook link. Will be <c>null</c> if unknown.
         /// </summary>
-        public string Facebook => TryGetValue("facebook", out string fb) ? fb : null;
+        public string? Facebook => TryGetValue("facebook", out string fb) ? fb : null;
 
         /// <summary>
         ///     The Twitter link. Will be <c>null</c> if unknown.
         /// </summary>
-        public string Twitter => TryGetValue("twitter", out string tw) ? tw : null;
+        public string? Twitter => TryGetValue("twitter", out string tw) ? tw : null;
 
         /// <summary>
         ///     The Instagram link. Will be <c>null</c> if unknown.
         /// </summary>
-        public string Instagram => TryGetValue("instagram", out string ig) ? ig : null;
+        public string? Instagram => TryGetValue("instagram", out string ig) ? ig : null;
     }
 }

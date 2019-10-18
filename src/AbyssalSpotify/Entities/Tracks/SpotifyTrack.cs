@@ -94,6 +94,7 @@ namespace AbyssalSpotify
             Duration = TimeSpan.FromMilliseconds(data["duration_ms"].ToObject<int>());
             HasExplicitLyrics = data["explicit"].ToObject<bool>();
             ExternalUrls = new SpotifyExternalUrlsCollection(data["external_urls"].ToObject<IDictionary<string, string>>());
+            ExternalIds = new SpotifyExternalIdsCollection(data["external_ids"].ToObject<IDictionary<string, string>>());
             Id = new SpotifyUri(data["uri"].ToObject<string>());
             // TODO: IS_PLAYABLE, LINKED_FROM, RESTRICTIONS
             Name = data["name"].ToObject<string>();

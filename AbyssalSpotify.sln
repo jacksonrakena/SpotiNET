@@ -5,7 +5,12 @@ VisualStudioVersion = 16.0.28922.388
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AbyssalSpotify", "src\AbyssalSpotify\AbyssalSpotify.csproj", "{0604894F-88C6-4D5E-9203-A2131C6B6D91}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AbyssalSpotify.Tests", "src\AbyssalSpotify.Tests\AbyssalSpotify.Tests.csproj", "{84907CA1-5A23-484A-9B31-08448DEFEF4E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AbyssalSpotify.Tests", "src\AbyssalSpotify.Tests\AbyssalSpotify.Tests.csproj", "{84907CA1-5A23-484A-9B31-08448DEFEF4E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{85B90780-E298-4FAF-BB34-EFAA5FC4F1F0}"
+	ProjectSection(SolutionItems) = preProject
+		azure-pipelines.yml = azure-pipelines.yml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

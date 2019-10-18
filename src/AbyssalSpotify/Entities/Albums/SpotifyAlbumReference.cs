@@ -72,23 +72,16 @@ namespace AbyssalSpotify
             Name = data["name"].ToObject<string>();
             var rdp = data["release_date_precision"].ToObject<string>();
             var rd = data["release_date"].ToObject<string>().Split('-');
-            switch (rdp)
+            ReleaseDate = rdp switch
             {
-                case "year":
-                    ReleaseDate = new DateTimeOffset(int.Parse(rd[0]), 1, 1, 0, 0, 0, TimeSpan.Zero);
-                    break;
+                "year" => new DateTimeOffset(int.Parse(rd[0]), 1, 1, 0, 0, 0, TimeSpan.Zero),
 
-                case "month":
-                    ReleaseDate = new DateTimeOffset(int.Parse(rd[0]), int.Parse(rd[1]), 1, 0, 0, 0, TimeSpan.Zero);
-                    break;
+                "month" => new DateTimeOffset(int.Parse(rd[0]), int.Parse(rd[1]), 1, 0, 0, 0, TimeSpan.Zero),
 
-                case "day":
-                    ReleaseDate = new DateTimeOffset(int.Parse(rd[0]), int.Parse(rd[1]), int.Parse(rd[2]), 0, 0, 0, TimeSpan.Zero);
-                    break;
+                "day" => new DateTimeOffset(int.Parse(rd[0]), int.Parse(rd[1]), int.Parse(rd[2]), 0, 0, 0, TimeSpan.Zero),
 
-                default:
-                    throw new InvalidOperationException("The specified release date precision was not year, month, or day.");
-            }
+                _ => throw new InvalidOperationException("The specified release date precision was not year, month, or day."),
+            };
         }
 
         /// <inheritdoc />

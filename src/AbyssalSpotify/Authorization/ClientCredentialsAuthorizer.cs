@@ -22,7 +22,7 @@ namespace AbyssalSpotify
 
         public string CombinedClientCredentials { get; }
 
-        private AuthorizationSet Authorization { get; set; }
+        private AuthorizationSet? Authorization { get; set; }
 
         internal ClientCredentialsAuthorizer(string clientId, string clientSecret)
         {
@@ -68,11 +68,7 @@ namespace AbyssalSpotify
 
                 response.EnsureSuccessStatusCode();
 
-                Authorization = new AuthorizationSet
-                {
-                    AccessToken = jsonData["access_token"].ToObject<string>(),
-                    ExpirationTime = DateTimeOffset.Now.AddSeconds(jsonData["expires_in"].ToObject<int>())
-                };
+                Authorization = new AuthorizationSet(jsonData["access_token"].ToObject<string>(), DateTimeOffset.Now.AddSeconds(jsonData["expires_in"].ToObject<int>()));
 
                 UpdateClientAuthorization(client);
 
@@ -87,7 +83,7 @@ namespace AbyssalSpotify
 
         private void UpdateClientAuthorization(SpotifyClient client)
         {
-            client.HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Authorization.AccessToken);
+            if (Authorization != null) client.HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Authorization.AccessToken);
         }
 
         private string EncodeBase64(string enc)
@@ -107,9 +103,15 @@ namespace AbyssalSpotify
 
         private class AuthorizationSet
         {
-            public string AccessToken { get; set; }
+            public string AccessToken { get; }
 
-            public DateTimeOffset ExpirationTime { get; set; }
+            public DateTimeOffset ExpirationTime { get; }
+
+            internal AuthorizationSet(string accessToken, DateTimeOffset expirationTime)
+            {
+                AccessToken = accessToken;
+                ExpirationTime = expirationTime;
+            }
         }
     }
 }

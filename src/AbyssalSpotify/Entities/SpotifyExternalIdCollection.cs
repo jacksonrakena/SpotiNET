@@ -47,16 +47,16 @@ namespace AbyssalSpotify
         /// <summary>
         ///     The International Standard Recording Code for this entity.
         /// </summary>
-        public string InternationalStandardRecordingCode => TryGetValue("isrc", out var isrc) ? isrc : null;
+        public string? InternationalStandardRecordingCode => TryGetValue("isrc", out var isrc) ? isrc : null;
 
         /// <summary>
         ///     The International Article Number for this entity.
         /// </summary>
-        public string InternationalArticleNumber => TryGetValue("ean", out var ean) ? ean : null;
+        public string? InternationalArticleNumber => TryGetValue("ean", out var ean) ? ean : null;
 
         /// <summary>
         ///     The Universal Product code for this entity.
         /// </summary>
-        public string UniversalProductCode => TryGetValue("upc", out var upc) ? upc : null;
+        public string? UniversalProductCode => TryGetValue("upc", out var upc) ? upc : null;
     }
 }
