@@ -20,15 +20,10 @@ steps:
 - task: NuGetToolInstaller@0
   displayName: 'Install NuGet'
 
-- task: NuGetCommand@2
-  displayName: 'Restore packages'
-  inputs:
-    restoreSolution: '$(solution)'
-
-- task: VSBuild@1
+- task: MSBuild@1
   displayName: 'Build project'
   inputs:
-    solution: '$(solution)'
+    project: 'src\AbyssalSpotify\AbyssalSpotify.csproj'
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
 
