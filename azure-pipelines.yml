@@ -20,6 +20,11 @@ steps:
 - task: NuGetToolInstaller@0
   displayName: 'Install NuGet'
 
+- task: DotNetCoreCLI@2
+  displayName: 'Restore'
+  command: 'restore'
+  projects: 'src\AbyssalSpotify\AbyssalSpotify.csproj'
+
 - task: MSBuild@1
   displayName: 'Build project'
   inputs:
