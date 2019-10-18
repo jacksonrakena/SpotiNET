@@ -6,8 +6,6 @@ pool:
 
 variables:
   solution: '**/*.sln'
-  buildPlatform: 'Any CPU'
-  buildConfiguration: 'Release'
 
 steps:
 - task: UseDotNet@2
@@ -26,12 +24,11 @@ steps:
     command: 'restore'
     projects: 'src\AbyssalSpotify\AbyssalSpotify.csproj'
 
-- task: MSBuild@1
+- task: DotNetCoreCLI@2
   displayName: 'Build project'
   inputs:
-    project: 'src\AbyssalSpotify\AbyssalSpotify.csproj'
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
+    command: 'build'
+    projects: 'src\AbyssalSpotify\AbyssalSpotify.csproj'
 
 - script: |
     dotnet pack "src\AbyssalSpotify\AbyssalSpotify.csproj" -o "artifacts/" -c $(buildConfiguration) /p:BuildNumber=$(Build.BuildNumber)
