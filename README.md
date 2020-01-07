@@ -1,5 +1,5 @@
 # AbyssalSpotify
-A Spotify API wrapper for .NET Standard 2.1 (written in C#), originally developed as a replacement for [JohnnyCrazy's SpotifyAPI-NET](https://github.com/JohnnyCrazy/SpotifyAPI-NET) for usage in [Abyss](http://github.com/abyssal/Abyss). 
+A Spotify API wrapper for .NET Standard 2.1 (written in C#).
   
 ## Build Status
 | Pipeline status | Latest stable | Latest pre-release |
