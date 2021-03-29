@@ -4,7 +4,9 @@ A Spotify API wrapper for .NET Standard 2.1.
 Currently, there are no stable releases, although the latest pre-release is fairly stable and should work in your production builds. When updating, always check the commit notes. 
 
 ### Usage
-Documentation is a work-in-progress. You can see the tests in `src\SpotiNet.Tests` for a brief example, 
+There is a beginner's guide to using SpotiNET available at [my documentation website.](https://docs.abyssal.gg/docs/spotinet/intro)  
+  
+API documentation is a work-in-progress. You can see the tests in `src\SpotiNet.Tests` for a brief example, 
 but XML documentation is included with all public-facing classes and methods. You can also generate the documentation using DocFX and browse it locally. If you have any issues, feel free to open a GitHub issue.
 
 ### Feature Roadmap
